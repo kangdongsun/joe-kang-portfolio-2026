@@ -7,6 +7,7 @@ import { Words, createCascade } from './Words';
 import { MailIcon, LinkedInIcon } from './icons';
 import PlayableVideo from './PlayableVideo';
 import NextProjectFloat from './NextProjectFloat';
+import { assetUrl } from '../assetUrl';
 
 /**
  * Case Study — "Plan Feature Adoption" (Figma node 2327:2842, "Web / 1440 /
@@ -73,7 +74,7 @@ function DeviceVideo({
       style={active && delayMs ? { animationDelay: `${delayMs}ms` } : undefined}
     >
       <img
-        src="/assets/device-shadow.png"
+        src={assetUrl('/assets/device-shadow.png')}
         alt=""
         aria-hidden="true"
         className="pointer-events-none absolute bottom-0 left-1/2 z-0 w-[90%] -translate-x-1/2 translate-y-[32%] opacity-55"
@@ -116,7 +117,7 @@ function FramedImage({
       style={active && delayMs ? { animationDelay: `${delayMs}ms` } : undefined}
     >
       <img
-        src="/assets/device-shadow.png"
+        src={assetUrl('/assets/device-shadow.png')}
         alt=""
         aria-hidden="true"
         className="pointer-events-none absolute bottom-0 left-1/2 z-0 w-[90%] -translate-x-1/2 translate-y-[32%] opacity-55"
@@ -324,7 +325,7 @@ export default function CaseStudyPlanFeatureAdoption() {
             </div>
             <div className="mt-10 w-full max-w-[670px] lg:mt-12">
               <FramedImage
-                src="/assets/pfa-hero.png"
+                src={assetUrl('/assets/pfa-hero.png')}
                 alt="Gusto “Set up your account” screen showing the Feature Activation Checklist at 40% complete"
                 aspect="aspect-[700/435]"
                 radius="rounded-xl"
@@ -360,7 +361,7 @@ export default function CaseStudyPlanFeatureAdoption() {
                 </p>
                 <div className="lg:max-w-[700px]">
                   <FramedImage
-                    src="/assets/pfa-pricing-page.png"
+                    src={assetUrl('/assets/pfa-pricing-page.png')}
                     alt="Gusto “Choose a plan” screen showing Simple, Plus, and Premium plans"
                     aspect="aspect-[700/438]"
                     radius="rounded-xl"
@@ -491,7 +492,7 @@ export default function CaseStudyPlanFeatureAdoption() {
             <div className="mt-8 flex flex-col gap-10 lg:flex-row lg:items-center lg:gap-20">
               <div className="lg:w-[700px] lg:shrink-0">
                 <FramedImage
-                  src="/assets/pfa-existing-design.png"
+                  src={assetUrl('/assets/pfa-existing-design.png')}
                   alt="Gusto homepage — “Good morning, Ella” with Things to do list"
                   aspect="aspect-[700/438]"
                   radius="rounded-xl"
@@ -534,7 +535,7 @@ export default function CaseStudyPlanFeatureAdoption() {
             <div className="mt-8 flex flex-col gap-10 lg:flex-row lg:items-center lg:gap-20">
               <div className="lg:w-[700px] lg:shrink-0">
                 <DeviceVideo
-                  src="/assets/pfa-after.mp4"
+                  src={assetUrl('/assets/pfa-after.mp4')}
                   ariaLabel="Plan Feature Adoption — launched design walkthrough"
                   active={after.shown}
                   delayMs={afterVideoDelay}
@@ -594,7 +595,7 @@ export default function CaseStudyPlanFeatureAdoption() {
         <section className="w-full bg-surface-card">
           <div ref={chart.ref} className="mx-auto max-w-content px-6 py-10 md:px-8">
             <img
-              src="/assets/pfa-results-chart.png"
+              src={assetUrl('/assets/pfa-results-chart.png')}
               alt="Bar chart — New Features Adopted, Experiment: Feature activation (all features), control vs. variation across time_tracking, next-day payroll, medical, pto_policy, retirement, custom_docs, and admin_permissions"
               loading="lazy"
               className={[
@@ -701,7 +702,7 @@ export default function CaseStudyPlanFeatureAdoption() {
             <div className="mt-5">
               <video
                 ref={ctaVideoRef}
-                src="/assets/cs-cta.mp4"
+                src={assetUrl('/assets/cs-cta.mp4')}
                 muted
                 loop
                 playsInline

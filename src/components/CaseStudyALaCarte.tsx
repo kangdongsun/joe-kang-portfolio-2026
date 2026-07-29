@@ -7,6 +7,7 @@ import { Words, createCascade } from './Words';
 import { MailIcon, LinkedInIcon } from './icons';
 import PlayableVideo from './PlayableVideo';
 import NextProjectFloat from './NextProjectFloat';
+import { assetUrl } from '../assetUrl';
 
 /**
  * Case Study — "A La Carte Pricing Plan" (Figma node 2292:4475,
@@ -79,7 +80,7 @@ function DeviceVideo({
       style={active && delayMs ? { animationDelay: `${delayMs}ms` } : undefined}
     >
       <img
-        src="/assets/device-shadow.png"
+        src={assetUrl('/assets/device-shadow.png')}
         alt=""
         aria-hidden="true"
         className="pointer-events-none absolute bottom-0 left-1/2 z-0 w-[90%] -translate-x-1/2 translate-y-[32%] opacity-55"
@@ -114,7 +115,7 @@ function FramedImage({
       style={active && delayMs ? { animationDelay: `${delayMs}ms` } : undefined}
     >
       <img
-        src="/assets/device-shadow.png"
+        src={assetUrl('/assets/device-shadow.png')}
         alt=""
         aria-hidden="true"
         className="pointer-events-none absolute bottom-0 left-1/2 z-0 w-[90%] -translate-x-1/2 translate-y-[32%] opacity-55"
@@ -328,7 +329,7 @@ export default function CaseStudyALaCarte() {
             </div>
             <div className="mt-10 w-full max-w-[670px] lg:mt-12">
               <FramedImage
-                src="/assets/alc-hero.png"
+                src={assetUrl('/assets/alc-hero.png')}
                 alt="Gusto “Plans and pricing” Add-on store screen"
                 delayMs={heroVideoDelay}
               />
@@ -367,7 +368,7 @@ export default function CaseStudyALaCarte() {
                   </div>
                   <div className="lg:max-w-[700px]">
                     <FramedImage
-                      src="/assets/alc-who-is-gusto.png"
+                      src={assetUrl('/assets/alc-who-is-gusto.png')}
                       alt="Gusto marketing homepage — “Payroll, HR, Benefits. Simplified.”"
                       active={context.shown}
                       delayMs={contextImage1Delay}
@@ -385,7 +386,7 @@ export default function CaseStudyALaCarte() {
                   </p>
                   <div className="lg:max-w-[700px]">
                     <FramedImage
-                      src="/assets/alc-pricing-page.png"
+                      src={assetUrl('/assets/alc-pricing-page.png')}
                       alt="Gusto “Choose a plan” screen showing Simple, Plus, and Premium plans"
                       active={context.shown}
                       delayMs={contextImage2Delay}
@@ -514,7 +515,7 @@ export default function CaseStudyALaCarte() {
             <div className="mt-8 flex flex-col gap-10 lg:flex-row lg:items-center lg:gap-20">
               <div className="lg:w-[700px] lg:shrink-0">
                 <DeviceVideo
-                  src="/assets/alc-before.mp4"
+                  src={assetUrl('/assets/alc-before.mp4')}
                   ariaLabel="Existing design — pricing upgrade flow walkthrough"
                   active={before.shown}
                   delayMs={beforeBodyStart}
@@ -542,7 +543,7 @@ export default function CaseStudyALaCarte() {
             <div className="mt-8 flex flex-col gap-10 lg:flex-row lg:items-center lg:gap-20">
               <div className="lg:w-[700px] lg:shrink-0">
                 <DeviceVideo
-                  src="/assets/alc-after.mp4"
+                  src={assetUrl('/assets/alc-after.mp4')}
                   ariaLabel="A La Carte Pricing Plan — launched design walkthrough"
                   active={after.shown}
                   delayMs={afterVideoDelay}
@@ -697,7 +698,7 @@ export default function CaseStudyALaCarte() {
             <div className="mt-5">
               <video
                 ref={ctaVideoRef}
-                src="/assets/cs-cta.mp4"
+                src={assetUrl('/assets/cs-cta.mp4')}
                 muted
                 loop
                 playsInline

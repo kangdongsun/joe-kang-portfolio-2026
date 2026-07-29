@@ -7,6 +7,7 @@ import { Words, createCascade } from './Words';
 import { MailIcon, LinkedInIcon } from './icons';
 import PlayableVideo from './PlayableVideo';
 import NextProjectFloat from './NextProjectFloat';
+import { assetUrl } from '../assetUrl';
 
 /**
  * Case Study — "Messaging Multi-Destination Adoption"
@@ -103,7 +104,7 @@ function DeviceShot({
       style={active && delayMs ? { animationDelay: `${delayMs}ms` } : undefined}
     >
       <img
-        src="/assets/device-shadow.png"
+        src={assetUrl('/assets/device-shadow.png')}
         alt=""
         aria-hidden="true"
         className="pointer-events-none absolute bottom-0 left-1/2 z-0 w-[90%] -translate-x-1/2 translate-y-[32%] opacity-55"
@@ -134,7 +135,7 @@ function DeviceVideo({
       style={active && delayMs ? { animationDelay: `${delayMs}ms` } : undefined}
     >
       <img
-        src="/assets/device-shadow.png"
+        src={assetUrl('/assets/device-shadow.png')}
         alt=""
         aria-hidden="true"
         className="pointer-events-none absolute bottom-0 left-1/2 z-0 w-[90%] -translate-x-1/2 translate-y-[32%] opacity-55"
@@ -339,7 +340,7 @@ export default function CaseStudyMessaging() {
             </div>
             <div className="mt-10 w-full max-w-[670px] lg:mt-12">
               <DeviceShot
-                src="/assets/cs-hero.png"
+                src={assetUrl('/assets/cs-hero.png')}
                 alt="Meta Ads Manager — New Engagement Campaign with Automatic message destinations"
                 delayMs={heroImageDelay}
               />
@@ -390,7 +391,7 @@ export default function CaseStudyMessaging() {
                       Single-Destination
                     </p>
                     <img
-                      src="/assets/cs-single.png"
+                      src={assetUrl('/assets/cs-single.png')}
                       alt="Single-destination ad preview — one messaging app selected"
                       loading="lazy"
                       className="w-full"
@@ -401,7 +402,7 @@ export default function CaseStudyMessaging() {
                       Multi-Destination
                     </p>
                     <img
-                      src="/assets/cs-multi.png"
+                      src={assetUrl('/assets/cs-multi.png')}
                       alt="Multi-destination ad preview — Messenger, Instagram and WhatsApp selected"
                       loading="lazy"
                       className="w-full"
@@ -534,7 +535,7 @@ export default function CaseStudyMessaging() {
             <div className="mt-8 flex flex-col gap-10 lg:flex-row lg:items-center lg:gap-20">
               <div className="lg:w-[700px] lg:shrink-0">
                 <DeviceShot
-                  src="/assets/cs-before.png"
+                  src={assetUrl('/assets/cs-before.png')}
                   alt="Existing message-destinations design using checkboxes"
                   active={before.shown}
                   delayMs={beforeBodyStart}
@@ -566,7 +567,7 @@ export default function CaseStudyMessaging() {
             <div className="mt-8 flex flex-col gap-10 lg:flex-row lg:items-center lg:gap-20">
               <div className="lg:w-[700px] lg:shrink-0">
                 <DeviceVideo
-                  src="/assets/cs-after.mp4"
+                  src={assetUrl('/assets/cs-after.mp4')}
                   active={after.shown}
                   delayMs={afterImageDelay}
                 />
@@ -713,7 +714,7 @@ export default function CaseStudyMessaging() {
             <div className="mt-5">
               <video
                 ref={ctaVideoRef}
-                src="/assets/cs-cta.mp4"
+                src={assetUrl('/assets/cs-cta.mp4')}
                 muted
                 loop
                 playsInline

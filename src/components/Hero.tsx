@@ -38,6 +38,7 @@ import { Words } from './Words';
 import { useScrollBlur } from './useScrollBlur';
 import { useHoverLetters } from './useHoverLetters';
 import { mergeRefs } from './mergeRefs';
+import { assetUrl } from '../assetUrl';
 
 export default function Hero({ ready }: { ready: boolean }) {
   const blurRef = useScrollBlur<HTMLElement>({ exitPx: 560 });
@@ -69,7 +70,7 @@ export default function Hero({ ready }: { ready: boolean }) {
         <video
           ref={desktopVideoRef}
           className="absolute inset-0 h-full w-full object-cover object-center min-[1441px]:[-webkit-mask-image:linear-gradient(to_right,transparent,#000_11%,#000_86%,transparent)] min-[1441px]:[mask-image:linear-gradient(to_right,transparent,#000_11%,#000_86%,transparent)]"
-          src="/assets/hero-video.mp4"
+          src={assetUrl('/assets/hero-video.mp4')}
           muted
           playsInline
           onEnded={replayAfterPause}
@@ -160,7 +161,7 @@ export default function Hero({ ready }: { ready: boolean }) {
           <video
             ref={mobileVideoRef}
             className="absolute inset-0 h-full w-full object-cover object-center"
-            src="/assets/hero-video.mp4"
+            src={assetUrl('/assets/hero-video.mp4')}
             muted
             loop
             playsInline

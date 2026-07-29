@@ -6,6 +6,7 @@
  * card (Meta = sky, Gusto = persimmon). `highlights` are the phrases the
  * design renders in matcha-green inside the description.
  */
+import { assetUrl } from '../assetUrl';
 
 export type ProjectAccent = 'sky' | 'persimmon' | 'error';
 
@@ -36,7 +37,7 @@ export const projects: Project[] = [
       { text: '+8%', highlight: true },
       { text: ' in Product Adoption' },
     ],
-    image: '/assets/meta-card.png',
+    image: assetUrl('/assets/meta-card.png'),
     imageAlt:
       'Meta Ads Manager campaign screen showing message-destination settings and a campaign score of 100',
     accent: 'sky',
@@ -52,7 +53,7 @@ export const projects: Project[] = [
       },
       { text: '+6.5%', highlight: true },
     ],
-    image: '/assets/gusto-card.png',
+    image: assetUrl('/assets/gusto-card.png'),
     imageAlt: 'Gusto plans and pricing screen showing featured add-ons in an add-on store',
     accent: 'persimmon',
     href: '#/case/a-la-carte',
@@ -70,7 +71,7 @@ export const projects: Project[] = [
       { text: '-2.4%', highlight: true },
       { text: ' in churn rate' },
     ],
-    image: '/assets/gusto-feature-card.png',
+    image: assetUrl('/assets/gusto-feature-card.png'),
     imageAlt: 'Gusto "Set up your account" screen showing the Feature Activation Checklist at 40% complete',
     accent: 'persimmon',
     href: '#/case/plan-feature-adoption',

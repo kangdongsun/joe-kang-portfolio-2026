@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import Header from './Header';
 import Footer from './Footer';
+import { assetUrl } from '../assetUrl';
 
 /**
  * About — "Web / 1440 / About" (Figma node 2409:5372) + "Mobile / 390 / About"
@@ -41,7 +42,7 @@ type AboutSection = {
 
 const sections: AboutSection[] = [
   {
-    video: '/assets/about-1.mp4',
+    video: assetUrl('/assets/about-1.mp4'),
     label: 'Joe walking past a red doorway',
     paragraphs: [
       [
@@ -57,7 +58,7 @@ const sections: AboutSection[] = [
     ],
   },
   {
-    video: '/assets/about-2.mp4',
+    video: assetUrl('/assets/about-2.mp4'),
     label: 'Joe eating at a restaurant',
     paragraphs: [
       [
@@ -74,7 +75,7 @@ const sections: AboutSection[] = [
     ],
   },
   {
-    video: '/assets/about-3.mp4',
+    video: assetUrl('/assets/about-3.mp4'),
     label: 'Portrait of Joe',
     paragraphs: [
       [
@@ -95,7 +96,7 @@ const sections: AboutSection[] = [
 
 /** Résumé PDF lives in `public/assets/`, so Vite copies it to the build root
  *  untouched. `download` forces a save rather than an in-tab PDF viewer. */
-const RESUME_HREF = '/assets/JoeKang_Resume.pdf';
+const RESUME_HREF = assetUrl('/assets/JoeKang_Resume.pdf');
 
 type Role = {
   company: string;

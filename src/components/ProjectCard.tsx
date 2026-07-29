@@ -1,6 +1,7 @@
 import type { Project, ProjectAccent } from '../data/projects';
 import { useReveal } from './useReveal';
 import { Words, type WordRun } from './Words';
+import { assetUrl } from '../assetUrl';
 
 /**
  * Case-study "Card" (Figma node 2044:5910 / 5911).
@@ -78,7 +79,7 @@ export default function ProjectCard({ project }: { project: Project }) {
         >
           <div className="relative w-[86%] max-w-[760px] lg:w-full">
             <img
-              src="/assets/device-shadow.png"
+              src={assetUrl('/assets/device-shadow.png')}
               alt=""
               aria-hidden="true"
               className="pointer-events-none absolute bottom-0 left-1/2 z-0 w-[96%] -translate-x-1/2 translate-y-[34%] opacity-60 transition-transform duration-300 ease-[var(--ease-out)] lg:group-hover:scale-[0.88]"
