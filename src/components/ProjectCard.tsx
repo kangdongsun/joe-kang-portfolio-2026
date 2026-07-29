@@ -25,7 +25,7 @@ import { assetUrl } from '../assetUrl';
 // Desktop hover background tint per card (Figma prototype): the card lifts out
 // of the cream page into its brand-tinted panel.
 const hoverTintByAccent: Record<ProjectAccent, string> = {
-  sky: 'lg:hover:bg-[#dce3e9]', // Meta — light blue
+  sky: 'lg:hover:bg-[#f6d6c7]', // same peach as the other cards, not Meta's own blue
   persimmon: 'lg:hover:bg-[#f6d6c7]', // Gusto — peach
   error: 'lg:hover:bg-[#f6d6c7]',
 };
