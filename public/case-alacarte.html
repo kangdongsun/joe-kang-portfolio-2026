@@ -1,0 +1,758 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Joe Kang — Case Study: A La Carte Pricing Plan</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- PREVIEW HARNESS ONLY — same tokens/classes as the Vite app in src/. -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        future: { hoverOnlyWhenSupported: true },
+        theme: {
+          colors: {
+            ink: '#3e3e3e', body: '#494949', muted: '#777777', 'muted-soft': '#a4a4a4',
+            hairline: '#d2d2d2', 'hairline-soft': '#e8e8e8', canvas: '#f8ede0',
+            'canvas-strong': '#ebd7bd', 'surface-neutral': '#faf6f2', 'surface-card': '#ffffff',
+            'accent-sky': '#29aaee', 'accent-persimmon': '#f45d48', 'accent-error': '#ac3f3f',
+            'accent-ube': '#9c3fac', 'accent-matcha': '#3fac91', success: '#3fac91',
+            warning: '#d3b153', error: '#ac3f3f', 'on-dark': '#ffffff', espresso: '#26211d',
+          },
+          fontFamily: {
+            sans: ['Cabin', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+            serif: ['Georgia', 'serif'],
+          },
+          fontSize: {
+            hero: ['96px', { lineHeight: '112px', letterSpacing: '-3.84px' }],
+            h1: ['72px', { lineHeight: '88px', letterSpacing: '-2.88px' }],
+            h2: ['60px', { lineHeight: '72px', letterSpacing: '-2.4px' }],
+            h3: ['48px', { lineHeight: '64px', letterSpacing: '-1.92px' }],
+            h4: ['36px', { lineHeight: '48px', letterSpacing: '-1.44px' }],
+            h5: ['24px', { lineHeight: '32px', letterSpacing: '0px' }],
+            'body-1': ['20px', { lineHeight: '28px', letterSpacing: '0px' }],
+            'body-2': ['16px', { lineHeight: '24px', letterSpacing: '0px' }],
+            'body-3': ['14px', { lineHeight: '20px', letterSpacing: '0px' }],
+            'body-4': ['12px', { lineHeight: '16px', letterSpacing: '0px' }],
+            'eyebrow-lg': ['24px', { lineHeight: '32px', letterSpacing: '2.4px' }],
+            'eyebrow-md': ['16px', { lineHeight: '24px', letterSpacing: '1.6px' }],
+            'eyebrow-sm': ['12px', { lineHeight: '16px', letterSpacing: '1.2px' }],
+          },
+          borderRadius: {
+            none: '0px', xs: '2px', sm: '4px', md: '8px', lg: '12px',
+            xl: '16px', '2xl': '24px', card: '40px', full: '9999px',
+          },
+          extend: {
+            spacing: {
+              0.5: '2px', 1: '4px', 2: '8px', 2.5: '10px', 3: '12px', 4: '16px',
+              5: '20px', 6: '24px', 8: '32px', 9: '36px', 10: '40px', 12: '48px',
+              14: '56px', 16: '64px', 20: '80px', 24: '96px', 28: '112px',
+              32: '128px', 40: '160px', 60: '240px',
+            },
+            maxWidth: { frame: '1440px', content: '1376px' },
+            keyframes: {
+              'fade-up': {
+                '0%': { opacity: '0', transform: 'translateY(14px)' },
+                '100%': { opacity: '1', transform: 'translateY(0)' },
+              },
+              'word-reveal': {
+                '0%': { opacity: '0', filter: 'blur(3px)', transform: 'translateY(0.3em)' },
+                '55%': { filter: 'blur(0)' },
+                '100%': { opacity: '1', filter: 'blur(0)', transform: 'translateY(0)' },
+              },
+            },
+            animation: {
+              'fade-up': 'fade-up 0.6s var(--ease-out) both',
+              'word-reveal': 'word-reveal 0.6s var(--ease-out) both',
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      html { scroll-behavior: smooth; }
+      body { font-variation-settings: 'wdth' 100; }
+      :root { --ease-out: cubic-bezier(0.16, 1, 0.3, 1); }
+      @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+      }
+    </style>
+
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script>
+      Babel.registerPreset('react-classic', {
+        plugins: [[Babel.availablePlugins['transform-react-jsx'],
+          { runtime: 'classic', pragma: 'React.createElement', pragmaFrag: 'React.Fragment' }]],
+      });
+    </script>
+  </head>
+  <body class="bg-canvas text-ink font-sans antialiased">
+    <div id="root"></div>
+
+    <script type="text/babel" data-presets="react-classic">
+      const { useEffect, useRef, useState, Fragment } = React;
+
+      /* ---------- icons ---------- */
+      const Logo = ({ className }) => (
+        <svg viewBox="0 0 30.1073 32.0005" fill="none" className={className} aria-hidden="true">
+          <path d="M13.5887 0C14.3214 7.84365e-05 14.9158 0.594406 14.9158 1.32715V7.46875L22.952 0L25.2332 2.4541C25.7193 2.97742 25.689 3.7959 25.1658 4.28223L19.7127 9.34961L23.6834 18.4434H28.8358C29.5381 18.4434 30.1073 19.0125 30.1073 19.7148V23.0869H25.7108L25.7137 23.0938H21.6336C21.1098 23.0936 20.6348 22.7852 20.4217 22.3066L16.1375 12.6855L14.9158 13.8135V21.7588H14.9139V24.5332C14.9136 30.2182 8.80549 33.8122 3.83577 31.0518C-0.602522 28.586 -1.33189 22.502 2.39729 19.0566L10.2713 11.7812V4.64355H4.90901C4.20666 4.64355 3.63753 4.07443 3.63753 3.37207V0H13.5887ZM5.54866 22.4678C4.14213 23.7674 4.41757 26.0622 6.09163 26.9922C7.96596 28.0326 10.269 26.6771 10.2694 24.5332V20.0215H10.2713V18.1035L5.54866 22.4678Z" fill="currentColor" />
+        </svg>
+      );
+      const MenuIcon = ({ className }) => (
+        <svg viewBox="0 0 18 12.75" fill="none" className={className} aria-hidden="true">
+          <path d="M0 1.125C0 0.50368 0.50368 0 1.125 0H16.875C17.4963 0 18 0.50368 18 1.125C18 1.74632 17.4963 2.25 16.875 2.25H1.125C0.50368 2.25 0 1.74632 0 1.125Z" fill="currentColor" />
+          <path d="M0 6.375C0 5.75368 0.50368 5.25 1.125 5.25H16.875C17.4963 5.25 18 5.75368 18 6.375C18 6.99632 17.4963 7.5 16.875 7.5H1.125C0.50368 7.5 0 6.99632 0 6.375Z" fill="currentColor" />
+          <path d="M1.125 10.5C0.50368 10.5 0 11.0037 0 11.625C0 12.2463 0.50368 12.75 1.125 12.75H16.875C17.4963 12.75 18 12.2463 18 11.625C18 11.0037 17.4963 10.5 16.875 10.5H1.125Z" fill="currentColor" />
+        </svg>
+      );
+      const CloseIcon = ({ className }) => (
+        <svg viewBox="0 0 18 18" fill="none" className={className} aria-hidden="true">
+          <path d="M2 2L16 16M16 2L2 16" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round" />
+        </svg>
+      );
+      const MailIcon = ({ className }) => (
+        <svg viewBox="0 0 24 20" fill="none" className={className} aria-hidden="true">
+          <path fillRule="evenodd" clipRule="evenodd" d="M0 3.33333C0 1.49238 1.43269 0 3.2 0H20.8C22.5673 0 24 1.49238 24 3.33333V16.6667C24 18.5076 22.5673 20 20.8 20H3.2C1.43269 20 0 18.5076 0 16.6667V3.33333ZM3.2 2.5H20.8C21.2418 2.5 21.6 2.8731 21.6 3.33333V4.92946L12.9923 10.0531C12.3774 10.4191 11.6226 10.4191 11.0077 10.0531L2.4 4.92945V3.33333C2.4 2.8731 2.75817 2.5 3.2 2.5ZM2.4 7.80883V16.6667C2.4 17.1269 2.75817 17.5 3.2 17.5H20.8C21.2418 17.5 21.6 17.1269 21.6 16.6667V7.80884L14.183 12.2237C12.8303 13.0289 11.1697 13.0289 9.81699 12.2237L2.4 7.80883Z" fill="currentColor" />
+        </svg>
+      );
+      const LinkedInIcon = ({ className }) => (
+        <svg viewBox="0 0 20 20" fill="none" className={className} aria-hidden="true">
+          <path fillRule="evenodd" clipRule="evenodd" d="M10.8307 8.98226V8.95303C10.8247 8.96283 10.8164 8.97264 10.8113 8.98226H10.8307Z" fill="currentColor" />
+          <path fillRule="evenodd" clipRule="evenodd" d="M3.33333 0C1.49238 0 0 1.49238 0 3.33333V16.6667C0 18.5076 1.49238 20 3.33333 20H16.6667C18.5076 20 20 18.5076 20 16.6667V3.33333C20 1.49238 18.5076 0 16.6667 0H3.33333ZM6.22075 16.6155H3.25345V7.68818H6.22075V16.6155ZM4.7371 6.46971H4.71749C3.72211 6.46971 3.07692 5.78396 3.07692 4.92681C3.07692 4.05086 3.74097 3.38453 4.75653 3.38453C5.77231 3.38453 6.39653 4.05086 6.41596 4.92681C6.41596 5.78396 5.77231 6.46971 4.7371 6.46971ZM16.9231 16.6155H13.955V11.8393C13.955 10.6397 13.5262 9.82088 12.4519 9.82088C11.6315 9.82088 11.144 10.3722 10.9292 10.9063C10.8512 11.0971 10.8308 11.3622 10.8308 11.6298V16.6155H7.86211C7.86211 16.6155 7.90189 8.52571 7.86211 7.68822H10.8308V8.95323C11.2252 8.34633 11.9291 7.47864 13.5058 7.47864C15.459 7.47864 16.9231 8.75424 16.9231 11.4961V16.6155Z" fill="currentColor" />
+        </svg>
+      );
+      const PlayIcon = ({ className }) => (
+        <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden="true">
+          <path d="M7 5.5v13a1 1 0 0 0 1.523.852l10.5-6.5a1 1 0 0 0 0-1.704l-10.5-6.5A1 1 0 0 0 7 5.5Z" fill="currentColor" />
+        </svg>
+      );
+      const HomeIcon = ({ className }) => (
+        <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden="true">
+          <path fillRule="evenodd" clipRule="evenodd" d="M19.75 19.7561V9.53626C19.75 9.29846 19.6372 9.07475 19.4461 8.93332L11.9461 3.38485C11.681 3.18877 11.319 3.18877 11.0539 3.38485L3.55395 8.93332C3.36277 9.07475 3.25 9.29846 3.25 9.53626V19.7561H7.63462V14.6132C7.63462 13.1635 8.80987 11.9882 10.2596 11.9882H12.7404C14.1901 11.9882 15.3654 13.1635 15.3654 14.6132V19.7561H19.75ZM2.21579 7.1245C1.4511 7.69022 1 8.58506 1 9.53626V20.5061C1 21.3345 1.67157 22.0061 2.5 22.0061H8.38462C9.21304 22.0061 9.88462 21.3345 9.88462 20.5061V14.6132C9.88462 14.4061 10.0525 14.2382 10.2596 14.2382H12.7404C12.9475 14.2382 13.1154 14.4061 13.1154 14.6132V20.5061C13.1154 21.3345 13.787 22.0061 14.6154 22.0061H20.5C21.3284 22.0061 22 21.3345 22 20.5061V9.53626C22 8.58506 21.5489 7.69022 20.7842 7.1245L13.2842 1.57603C12.224 0.791713 10.776 0.791713 9.71579 1.57603L2.21579 7.1245Z" fill="currentColor" />
+        </svg>
+      );
+      const PauseIcon = ({ className }) => (
+        <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden="true">
+          <rect x="6" y="5" width="4" height="14" rx="1" fill="currentColor" />
+          <rect x="14" y="5" width="4" height="14" rx="1" fill="currentColor" />
+        </svg>
+      );
+      const SeekBackIcon = ({ className }) => (
+        <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden="true">
+          <path d="M12 5V1L6.5 6L12 11V7c3.314 0 6 2.686 6 6s-2.686 6-6 6-6-2.686-6-6H4c0 4.418 3.582 8 8 8s8-3.582 8-8-3.582-8-8-8Z" fill="currentColor" />
+          
+        </svg>
+      );
+      const SeekForwardIcon = ({ className }) => (
+        <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden="true">
+          <path d="M12 5V1l5.5 5-5.5 5V7c-3.314 0-6 2.686-6 6s2.686 6 6 6 6-2.686 6-6h2c0 4.418-3.582 8-8 8s-8-3.582-8-8 3.582-8 8-8Z" fill="currentColor" />
+          
+        </svg>
+      );
+
+      /* ---------- PlayableVideo (mirrors src/components/PlayableVideo.tsx) —
+         never autoplays; click (or the center button) toggles play/pause;
+         hover reveals play/pause + ±5s seek. ---------- */
+      function PlayableVideo({ src, loop = false, className, ariaLabel }) {
+        const videoRef = useRef(null);
+        const [playing, setPlaying] = useState(false);
+        const [hovering, setHovering] = useState(false);
+        const toggle = () => {
+          const v = videoRef.current; if (!v) return;
+          if (v.paused) { const p = v.play(); if (p && p.catch) p.catch(() => {}); } else v.pause();
+        };
+        const seek = (delta) => {
+          const v = videoRef.current; if (!v) return;
+          const target = v.currentTime + delta;
+          const duration = v.duration;
+          if (loop && Number.isFinite(duration) && duration > 0) {
+            v.currentTime = ((target % duration) + duration) % duration;
+          } else {
+            v.currentTime = Math.max(0, Number.isFinite(duration) ? Math.min(target, duration) : target);
+          }
+        };
+        const controlsVisible = hovering || !playing;
+        return (
+          <div className={['relative overflow-hidden', className].filter(Boolean).join(' ')}
+               onMouseEnter={() => setHovering(true)} onMouseLeave={() => setHovering(false)}>
+            <video ref={videoRef} src={src} loop={loop} muted playsInline aria-label={ariaLabel}
+                   onClick={toggle} onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)}
+                   className="block w-full cursor-pointer" />
+            <div className={['absolute inset-0 flex items-center justify-center gap-6 bg-[rgba(0,0,0,0.25)] transition-opacity duration-200',
+                   controlsVisible ? 'opacity-100' : 'pointer-events-none opacity-0'].join(' ')}>
+              <button type="button" onClick={() => seek(-5)} aria-label="Back 5 seconds"
+                      className="flex size-9 items-center justify-center rounded-full bg-surface-card text-ink transition-transform duration-150 hover:scale-105">
+                <SeekBackIcon className="size-5" />
+              </button>
+              <button type="button" onClick={toggle} aria-label={playing ? 'Pause video' : 'Play video'}
+                      className="flex size-14 items-center justify-center rounded-full bg-surface-card text-ink transition-transform duration-150 hover:scale-105">
+                {playing ? <PauseIcon className="size-6" /> : <PlayIcon className="size-6 translate-x-[1px]" />}
+              </button>
+              <button type="button" onClick={() => seek(5)} aria-label="Forward 5 seconds"
+                      className="flex size-9 items-center justify-center rounded-full bg-surface-card text-ink transition-transform duration-150 hover:scale-105">
+                <SeekForwardIcon className="size-5" />
+              </button>
+            </div>
+          </div>
+        );
+      }
+
+      /* ---------- scroll reveal ---------- */
+      function useReveal() {
+        const ref = useRef(null);
+        const [shown, setShown] = useState(false);
+        useEffect(() => {
+          const el = ref.current; if (!el) return;
+          const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setShown(true); io.disconnect(); } },
+            { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+          io.observe(el);
+          return () => io.disconnect();
+        }, []);
+        return { ref, shown };
+      }
+
+      /* ---------- scroll blur (mirrors src/components/useScrollBlur.ts) ---------- */
+      function useScrollBlur(opts) {
+        const maxBlur = (opts && opts.maxBlur) || 14;
+        const exitPx = (opts && opts.exitPx) || 480;
+        const ref = useRef(null);
+        useEffect(() => {
+          if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+          const el = ref.current; if (!el) return;
+          // Desktop-only (matches this project's mobile/desktop split at `lg`)
+          // — on mobile, sections scroll past too fast for this to read as
+          // intentional, it just looks like flicker.
+          const desktopQuery = window.matchMedia('(min-width: 1024px)');
+          let raf = 0;
+          const update = () => {
+            raf = 0;
+            if (!desktopQuery.matches) { el.style.filter = ''; el.style.opacity = ''; return; }
+            const bottom = el.getBoundingClientRect().bottom;
+            const progress = Math.min(1, Math.max(0, 1 - bottom / exitPx));
+            el.style.filter = progress > 0.01 ? `blur(${(progress * maxBlur).toFixed(1)}px)` : '';
+            el.style.opacity = String(1 - progress * 0.35);
+          };
+          const onScroll = () => { if (!raf) raf = requestAnimationFrame(update); };
+          update();
+          window.addEventListener('scroll', onScroll, { passive: true });
+          window.addEventListener('resize', onScroll);
+          desktopQuery.addEventListener('change', update);
+          const resizeObserver = new ResizeObserver(onScroll);
+          resizeObserver.observe(el);
+          return () => {
+            window.removeEventListener('scroll', onScroll);
+            window.removeEventListener('resize', onScroll);
+            desktopQuery.removeEventListener('change', update);
+            resizeObserver.disconnect();
+            if (raf) cancelAnimationFrame(raf);
+          };
+        }, [maxBlur, exitPx]);
+        return ref;
+      }
+
+      /* ---------- Words (mirrors src/components/Words.tsx) ---------- */
+      function tokenize(runs) {
+        const tokens = [];
+        for (const run of runs) {
+          for (const word of run.text.split(/\s+/).filter(Boolean)) {
+            tokens.push({ text: word, className: run.className });
+          }
+        }
+        return tokens;
+      }
+      function createCascade(startAt, defaults) {
+        startAt = startAt || 0; defaults = defaults || {};
+        let cursor = startAt;
+        return {
+          next(text, overrides) {
+            overrides = overrides || {};
+            const step = overrides.step ?? defaults.step ?? 55;
+            const gap = overrides.gap ?? defaults.gap ?? 120;
+            const words = typeof text === 'number' ? text : text.split(/\s+/).filter(Boolean).length;
+            const start = cursor;
+            cursor = start + words * step + gap;
+            return start;
+          },
+          peek() { return cursor; },
+        };
+      }
+      // Block-level reveal: the whole heading / paragraph / label animates as
+      // one unit (see Words.tsx). Only the Hero still staggers per word, and
+      // the Hero lives in preview.html — so this copy never does.
+      function Words({ text, runs, start = 0, step = 55, active = true, className, block = false }) {
+        const tokens = tokenize(runs ?? (text ? [{ text }] : []));
+        return (
+          <span
+            className={[block ? 'block' : 'inline-block align-top', active ? 'animate-word-reveal' : 'opacity-0', className].filter(Boolean).join(' ')}
+            style={active ? { animationDelay: `${start}ms` } : undefined}
+          >
+            {tokens.map((token, i) => (
+              <span key={i} className={token.className}>
+                {token.text}{i < tokens.length - 1 ? ' ' : ''}
+              </span>
+            ))}
+          </span>
+        );
+      }
+
+      /* ---------- Header (links back to the home preview) ---------- */
+      const pages = [
+        { label: 'Projects', href: 'preview.html#projects', selected: true },
+        { label: 'About', href: 'about.html', selected: false },
+      ];
+      const CONTACT_HREF = 'mailto:kangdongsun@gmail.com';
+      const unselectedItem = 'text-muted transition-colors duration-200 hover:text-ink';
+      const SocialButton = ({ href, label, children }) => (
+        <a href={href} aria-label={label} className={'flex size-10 items-center justify-center rounded-full ' + unselectedItem}>{children}</a>
+      );
+      function Header() {
+        const [open, setOpen] = useState(false);
+        return (
+          <header className={['absolute inset-x-0 top-0 z-20',
+            open ? 'bg-canvas/60 backdrop-blur-2xl lg:bg-[rgba(0,0,0,0)] lg:backdrop-blur-none' : ''].filter(Boolean).join(' ')}>
+            <div className="mx-auto flex w-full max-w-frame items-center gap-2.5 px-4 py-4 md:px-10">
+              <a href="preview.html" aria-label="Joe Kang — home" className="flex items-center"><Logo className="h-8 w-[30px] text-ink" /></a>
+              <nav className="hidden flex-1 items-center justify-end lg:flex">
+                <div className="flex items-center gap-2 rounded-full px-8 py-1">
+                  {pages.map((item) => (
+                    <a key={item.label} href={item.href} aria-current={item.selected ? 'page' : undefined}
+                       className={['rounded-sm px-4 py-2 font-sans text-body-2 font-semibold',
+                         item.selected ? 'bg-[rgba(0,0,0,0.1)] text-ink transition-colors duration-200' : unselectedItem].join(' ')}>{item.label}</a>
+                  ))}
+                  <a href={CONTACT_HREF} className={'rounded-sm px-4 py-2 font-sans text-body-2 font-semibold ' + unselectedItem}>Contact</a>
+                  <SocialButton href="https://www.linkedin.com/in/joe-kang/" label="Joe Kang on LinkedIn"><LinkedInIcon className="size-[22px]" /></SocialButton>
+                </div>
+              </nav>
+              <button type="button" onClick={() => setOpen((v) => !v)} aria-label={open ? 'Close menu' : 'Open menu'} aria-expanded={open}
+                      className="-mr-2.5 ml-auto flex size-11 items-center justify-center text-ink lg:hidden">
+                {open ? <CloseIcon className="w-[18px]" /> : <MenuIcon className="w-[18px]" />}
+              </button>
+            </div>
+            {open && (
+              <div className="lg:hidden">
+                <nav className="flex flex-col">
+                  {pages.map((item) => (
+                    <a key={item.label} href={item.href} onClick={() => setOpen(false)}
+                       className={['flex h-16 items-center justify-center border-b border-[rgba(0,0,0,0)] px-4 py-2 font-sans text-body-2 font-normal transition-colors duration-200',
+                         item.selected ? 'bg-[rgba(0,0,0,0.1)] text-[#000000]' : 'text-ink hover:bg-[rgba(0,0,0,0.04)]'].join(' ')}>{item.label}</a>
+                  ))}
+                  <a href={CONTACT_HREF} onClick={() => setOpen(false)} className="flex h-16 items-center justify-center border-b border-[rgba(0,0,0,0)] px-4 py-2 font-sans text-body-2 font-normal text-ink transition-colors duration-200 hover:bg-[rgba(0,0,0,0.04)]">Contact</a>
+                  <a href="https://www.linkedin.com/in/joe-kang/" target="_blank" rel="noreferrer" onClick={() => setOpen(false)} className="flex h-16 items-center justify-center border-b border-[rgba(0,0,0,0)] px-4 py-2 font-sans text-body-2 font-normal text-ink transition-colors duration-200 hover:bg-[rgba(0,0,0,0.04)]">Linkedin</a>
+                </nav>
+              </div>
+            )}
+          </header>
+        );
+      }
+      function Footer() {
+        return (
+          <footer className="w-full bg-[#f0dfd0] px-8 py-8">
+            <div className="mx-auto flex max-w-content items-center justify-center">
+              <p className="font-sans text-body-4 font-normal text-body">2026 Joe Kang. All Rights Reserved</p>
+            </div>
+          </footer>
+        );
+      }
+
+      /* ---------- shared bits ---------- */
+      function SectionHead({ eyebrow, eyebrowStart, title, titleStart, active }) {
+        return (
+          <div className="flex flex-col gap-1">
+            <p className="font-sans text-eyebrow-md font-bold uppercase text-ink">
+              <Words text={eyebrow} active={active} start={eyebrowStart} />
+            </p>
+            <h2 className="font-sans text-[28px] font-bold leading-[36px] tracking-[-1.12px] text-ink md:text-[36px] md:leading-[48px] md:tracking-[-1.44px] lg:text-[48px] lg:leading-[64px] lg:tracking-[-1.92px]">
+              <Words text={title} active={active} start={titleStart} />
+            </h2>
+          </div>
+        );
+      }
+      function DeviceVideo({ src, ariaLabel, active = true, delayMs = 0 }) {
+        return (
+          <div className={['relative w-full', active ? 'animate-fade-up' : 'opacity-0'].join(' ')}
+               style={active && delayMs ? { animationDelay: `${delayMs}ms` } : undefined}>
+            <img src="/assets/device-shadow.png" alt="" aria-hidden="true" className="pointer-events-none absolute bottom-0 left-1/2 z-0 w-[90%] -translate-x-1/2 translate-y-[32%] opacity-55" />
+            <PlayableVideo src={src} loop ariaLabel={ariaLabel}
+                   className="z-10 w-full rounded-xl border-8 border-ink shadow-[0px_4px_12px_0px_rgba(0,0,0,0.25)]" />
+          </div>
+        );
+      }
+      function FramedImage({ src, alt, active = true, delayMs = 0 }) {
+        return (
+          <div className={['relative w-full', active ? 'animate-fade-up' : 'opacity-0'].join(' ')}
+               style={active && delayMs ? { animationDelay: `${delayMs}ms` } : undefined}>
+            <img src="/assets/device-shadow.png" alt="" aria-hidden="true" className="pointer-events-none absolute bottom-0 left-1/2 z-0 w-[90%] -translate-x-1/2 translate-y-[32%] opacity-55" />
+            <img src={src} alt={alt} loading="lazy"
+                 className="relative z-10 block aspect-[700/435] w-full rounded-xl border-8 border-ink object-cover shadow-[0px_4px_12px_0px_rgba(0,0,0,0.25)]" />
+          </div>
+        );
+      }
+
+      const overviewCards = [
+        { label: 'Problem', body: 'With our current plan structure, we are forcing some users to upgrade to a fully new plan when they only need 1 feature. This results in us losing potential revenue when we gate features and risking churn from our platform.' },
+        { label: 'Hypothesis', body: '“If we run an A/B test that allows our Simple users to purchase 6 of our most popular Plus plan features as an add-on, then we will see an increase in ARR and validate that add-ons for plans work for Gusto.”' },
+        { label: 'Goal', body: 'Reduce churn by allowing Simple Plan users to adopt add-on features' },
+      ];
+      const stats = [
+        { label: 'CVR (Total conversion)', value: '+10.6%' },
+        { label: 'Annual recurring revenue', value: '6.5% | +$80K' },
+        { label: 'Reduce Churn', value: '-4.8%' },
+      ];
+      const afterRows = [
+        { label: 'Add-on store', rest: '- In our “upgrade” flow, I added an add-on store that allows users to choose the feature they want in their plan.' },
+        { label: 'Product card', rest: '- I worked with the design systems team to introduce a product card that could also show a default state and “in-cart” state' },
+        { label: 'Add-on “more info” page', rest: '- I used a side modal to help users learn more about an add-on before they decide on their plan.' },
+      ];
+      const processSteps = [
+        { step: 'Define pricing', items: ['Identify the audience', 'Find the feature users would want as an add-on feature', 'Find the right pricing point for each add-on'] },
+        { step: 'Define the MVP', items: ['What does the flow look like to add an add-on feature?', 'How can we show the value of each add-on to our users?'] },
+        { step: 'Validate the design', items: ['Run a usability test to see if users can properly use this experience.'] },
+        { step: 'Launch design', body: 'We then launched the experiment' },
+      ];
+
+      /* ---------- Case study (mirrors src/components/CaseStudyALaCarte.tsx) ---------- */
+      function CaseStudy() {
+        useEffect(() => { window.scrollTo(0, 0); }, []);
+
+        const heroBlur = useScrollBlur();
+
+        const context = useReveal();
+        const overview = useReveal();
+        const before = useReveal();
+        const after = useReveal();
+        const results = useReveal();
+        const process = useReveal();
+        const cta = useReveal();
+
+        const hero = createCascade(80);
+        const heroTitle = 'A La Carte Pricing Plan';
+        const heroEyebrow = 'Reducing churn through feature add-ons';
+        const heroTitleStart = hero.next(heroTitle);
+        const heroEyebrowStart = hero.next(heroEyebrow, { gap: 60 });
+        const heroVideoDelay = hero.peek();
+
+        const contextHead = createCascade(0);
+        const contextEyebrowStart = contextHead.next('Context');
+        const contextTitleStart = contextHead.next('Who is Gusto?');
+        const contextBody = createCascade(contextHead.peek(), { step: 14 });
+        const contextP1 = 'Gusto, Inc. is a SaaS company that provides payroll, benefits, and human resource management software for small businesses. In short, Gusto helps restaurant owners, tech startups, and mom & pop shops hire employees, manage their team’s benefits, and make sure their team is paid on time.';
+        const contextP1Start = contextBody.next(contextP1);
+        const contextImage1Delay = contextBody.peek();
+
+        const contextP2Runs = [
+          { text: 'Gusto’s pricing model consists of 3 subscription plans: ' },
+          { text: 'Simple plan, Plus plan, and the Premium plan.', className: 'font-bold' },
+          { text: ' We’ve run a couple of pricing experiments in the past, and we’ve learned that a big group of Simple plan users, who needed advanced features from the Plus plan, couldn’t afford to jump to the next plan. This was causing users to churn from the platform.' },
+        ];
+        const contextBody2 = createCascade(contextImage1Delay, { step: 12 });
+        const contextP2Start = contextBody2.next(
+          contextP2Runs.reduce((n, r) => n + r.text.split(/\s+/).filter(Boolean).length, 0),
+          { gap: 200 },
+        );
+        const contextImage2Delay = contextBody2.peek();
+
+        const roleCard = createCascade(0, { step: 30, gap: 60 });
+        const teamRow1 = roleCard.next('Jordan Kong - PM');
+        const teamRow2 = roleCard.next('Sarah Ang - CD');
+        const teamRow3 = roleCard.next('Erik Gorin - Pricing');
+
+        const overviewCascade = createCascade(0);
+        const overviewTitleStart = overviewCascade.next('Overview');
+        const overviewCardsBase = overviewCascade.peek();
+
+        const beforeHead = createCascade(0);
+        const beforeEyebrowStart = beforeHead.next('Before');
+        const beforeTitleStart = beforeHead.next('Existing Design');
+        const beforeBodyStart = beforeHead.peek();
+        const beforeBody = 'Gusto’s current pricing structure is based on a 3-plan subscription model. The only way to get new features is to upgrade your plan. The flow in this video is showing the only way a user can upgrade their plan:';
+
+        const afterHead = createCascade(0);
+        const afterEyebrowStart = afterHead.next('After');
+        const afterTitleStart = afterHead.next('Launched Design');
+        const afterVideoDelay = afterHead.peek();
+        const afterIntro = 'Within the upgrade flow, we added an add-on store for users to be able to add any add-ons they want to their plan';
+        const afterBody = createCascade(0, { step: 14 });
+        const afterIntroStart = afterBody.next(afterIntro);
+        const afterRowStarts = afterRows.map((row, i) => afterBody.next(`${row.label} ${row.rest}`, i === 0 ? { gap: 80 } : { gap: 140 }));
+
+        const resultsCascade = createCascade(0);
+        const resultsEyebrowStart = resultsCascade.next('After');
+        const resultsTitleStart = resultsCascade.next('Results');
+        const statsBase = resultsCascade.peek();
+
+        const processCascade = createCascade(0);
+        const processEyebrowStart = processCascade.next('Design Process');
+        const processTitleStart = processCascade.next('Steps to iterations and alignment');
+        const processStart = processCascade.peek();
+
+        const ctaHead = createCascade(0);
+        const ctaEyebrowStart = ctaHead.next('Rest of the portfolio');
+        const ctaTitleStart = ctaHead.next('Let’s talk first!');
+        const ctaBodyStart = ctaHead.peek();
+        const ctaBody = 'Before diving into the rest of the work, let’s chat first! I would love to share all the iterations, the tests, and the journey in person.';
+
+        // Let's Chat video: no play button — autoplays once the user scrolls
+        // to the CTA section (reuses the `cta` reveal trigger).
+        const ctaVideoRef = useRef(null);
+        useEffect(() => {
+          if (cta.shown) { const p = ctaVideoRef.current && ctaVideoRef.current.play(); if (p && p.catch) p.catch(() => {}); }
+        }, [cta.shown]);
+
+        return (
+          <div className="relative min-h-screen bg-canvas">
+            <Header />
+            <main>
+              {/* Hero — radial gradient (ellipse centred 50%/74%) + bottom fade strip; video (no baked frame) */}
+              <section ref={heroBlur} className="relative w-full overflow-hidden"
+                style={{ background: 'radial-gradient(ellipse 68.8% 68.8% at 50% 74%, #f8ede0 0%, #ffefda 49%, #f7debe 100%)' }}>
+                <div className="mx-auto flex max-w-content flex-col items-center px-6 pb-16 pt-28 md:px-8 md:pb-20 lg:pt-[120px]">
+                  <div className="flex max-w-[1000px] flex-col items-center gap-3 text-center">
+                    <h1 className="font-sans text-[34px] font-bold leading-[40px] tracking-[-1.36px] text-ink sm:text-[46px] sm:leading-[54px] lg:text-[60px] lg:leading-[72px] lg:tracking-[-2.4px]">
+                      <Words text={heroTitle} start={heroTitleStart} />
+                    </h1>
+                    <p className="font-sans text-eyebrow-sm font-bold uppercase text-ink md:text-eyebrow-md">
+                      <Words text={heroEyebrow} start={heroEyebrowStart} />
+                    </p>
+                  </div>
+                  <div className="mt-10 w-full max-w-[670px] lg:mt-12">
+                    <FramedImage src="/assets/alc-hero.png" alt="Gusto “Plans and pricing” Add-on store screen" delayMs={heroVideoDelay} />
+                  </div>
+                </div>
+                <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 h-[9.1%] bg-[linear-gradient(to_bottom,rgba(248,237,224,0),#f8ede0_65%)]" />
+              </section>
+
+              {/* Context — plain canvas */}
+              <section className="w-full bg-canvas">
+                <div ref={context.ref} className="mx-auto max-w-content px-6 pb-10 pt-16 md:px-8 md:pb-10 md:pt-20">
+                  <div className="flex flex-col gap-12 lg:flex-row lg:justify-between lg:gap-20">
+                    <div className="flex flex-col gap-20 lg:flex-1">
+                      <div className="flex flex-col gap-8">
+                        <div>
+                          <SectionHead eyebrow="Context" eyebrowStart={contextEyebrowStart} title="Who is Gusto?" titleStart={contextTitleStart} active={context.shown} />
+                          <p className="mt-3 font-sans text-body-1 font-normal text-ink"><Words text={contextP1} active={context.shown} start={contextP1Start} step={14} /></p>
+                        </div>
+                        <div className="lg:max-w-[700px]">
+                          <FramedImage src="/assets/alc-who-is-gusto.png" alt="Gusto marketing homepage — “Payroll, HR, Benefits. Simplified.”" active={context.shown} delayMs={contextImage1Delay} />
+                        </div>
+                      </div>
+                      <div className="flex flex-col gap-8">
+                        <p className="font-sans text-body-1 font-normal text-ink"><Words runs={contextP2Runs} active={context.shown} start={contextP2Start} step={12} /></p>
+                        <div className="lg:max-w-[700px]">
+                          <FramedImage src="/assets/alc-pricing-page.png" alt="Gusto “Choose a plan” screen showing Simple, Plus, and Premium plans" active={context.shown} delayMs={contextImage2Delay} />
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex flex-col gap-4 text-ink lg:w-[287px] lg:shrink-0 lg:mt-[100px]">
+                      <div className="flex flex-col">
+                        <p className="font-sans text-eyebrow-md font-bold uppercase"><Words text="Role" active={context.shown} start={roleCard.next('Role')} /></p>
+                        <p className="font-sans text-body-2 font-normal"><Words text="Senior Product Designer" active={context.shown} start={roleCard.next('Senior Product Designer')} /></p>
+                      </div>
+                      <div className="flex flex-col">
+                        <p className="font-sans text-eyebrow-md font-bold uppercase"><Words text="Team" active={context.shown} start={roleCard.next('Team')} /></p>
+                        <div className="flex gap-6 font-sans text-body-2 font-normal">
+                          <div>
+                            <p><Words text="Jordan Kong - PM" active={context.shown} start={teamRow1} /></p>
+                            <p><Words text="Sarah Ang - CD" active={context.shown} start={teamRow2} /></p>
+                            <p><Words text="Erik Gorin - Pricing" active={context.shown} start={teamRow3} /></p>
+                          </div>
+                          <div>
+                            <p><Words text="Bryan Berend - DS" active={context.shown} start={teamRow1} /></p>
+                            <p><Words text="Tim Vaca - Eng" active={context.shown} start={teamRow2} /></p>
+                            <p><Words text="Annie Kuramoto - Eng" active={context.shown} start={teamRow3} /></p>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="flex flex-col">
+                        <p className="font-sans text-eyebrow-md font-bold uppercase"><Words text="Duration" active={context.shown} start={roleCard.next('Duration')} /></p>
+                        <div className="font-sans text-body-2 font-normal">
+                          <p><Words text="Build - 2.5 months" active={context.shown} start={roleCard.next('Build - 2.5 months')} /></p>
+                          <p><Words text="Experimentation - 3 months" active={context.shown} start={roleCard.next('Experimentation - 3 months')} /></p>
+                          <p><Words text="Status - 🚀 Launched 2024" active={context.shown} start={roleCard.next('Status - 🚀 Launched 2024')} /></p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              {/* Overview — deeper tan #efe1d2 */}
+              <section className="w-full bg-[#efe1d2]">
+                <div ref={overview.ref} className="mx-auto max-w-content px-6 py-10 md:px-8 md:py-10">
+                  <h2 className="font-sans text-[28px] font-bold leading-[36px] tracking-[-1.12px] text-ink md:text-[36px] md:leading-[48px] md:tracking-[-1.44px] lg:text-[48px] lg:leading-[64px] lg:tracking-[-1.92px]">
+                    <Words text="Overview" active={overview.shown} start={overviewTitleStart} />
+                  </h2>
+                  <div className="mt-8 flex flex-col gap-4 md:flex-row">
+                    {overviewCards.map((c, i) => (
+                      <div key={c.label} className="flex flex-1 flex-col justify-start gap-3 rounded-lg border border-[rgba(0,0,0,0.1)] bg-canvas p-8">
+                        <p className="font-sans text-eyebrow-md font-bold uppercase text-ink"><Words text={c.label} active={overview.shown} start={overviewCardsBase + i * 90} /></p>
+                        <p className="font-sans text-body-1 font-normal text-body"><Words text={c.body} active={overview.shown} start={overviewCardsBase + i * 90 + 60} step={14} /></p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </section>
+
+              {/* Before — plain canvas */}
+              <section className="w-full bg-canvas">
+                <div ref={before.ref} className="mx-auto max-w-content px-6 py-10 md:px-8 md:py-10">
+                  <div className="lg:max-w-[700px]">
+                    <SectionHead eyebrow="Before" eyebrowStart={beforeEyebrowStart} title="Existing Design" titleStart={beforeTitleStart} active={before.shown} />
+                  </div>
+                  <div className="mt-8 flex flex-col gap-10 lg:flex-row lg:items-center lg:gap-20">
+                    <div className="lg:w-[700px] lg:shrink-0">
+                      <DeviceVideo src="/assets/alc-before.mp4" ariaLabel="Existing design — pricing upgrade flow walkthrough" active={before.shown} delayMs={beforeBodyStart} />
+                    </div>
+                    <p className="font-sans text-body-1 font-normal text-ink lg:flex-1"><Words text={beforeBody} active={before.shown} start={beforeBodyStart} step={14} /></p>
+                  </div>
+                </div>
+              </section>
+
+              {/* After — deeper tan #efe1d2; numbered list */}
+              <section className="w-full bg-[#efe1d2]">
+                <div ref={after.ref} className="mx-auto max-w-content px-6 py-10 md:px-8 md:py-10">
+                  <div className="lg:max-w-[700px]">
+                    <SectionHead eyebrow="After" eyebrowStart={afterEyebrowStart} title="Launched Design" titleStart={afterTitleStart} active={after.shown} />
+                  </div>
+                  <div className="mt-8 flex flex-col gap-10 lg:flex-row lg:items-center lg:gap-20">
+                    <div className="lg:w-[700px] lg:shrink-0">
+                      <DeviceVideo src="/assets/alc-after.mp4" ariaLabel="A La Carte Pricing Plan — launched design walkthrough" active={after.shown} delayMs={afterVideoDelay} />
+                    </div>
+                    <div className="flex flex-col gap-3 font-sans text-body-1 font-normal text-ink lg:flex-1">
+                      <p><Words text={afterIntro} active={after.shown} start={afterIntroStart} step={14} /></p>
+                      <ol className="flex flex-col gap-3 list-decimal pl-5">
+                        {afterRows.map((row, i) => (
+                          <li key={row.label}>
+                            <Words block runs={[{ text: row.label, className: 'font-bold' }, { text: ` ${row.rest}` }]} active={after.shown} start={afterRowStarts[i]} step={14} />
+                          </li>
+                        ))}
+                      </ol>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              {/* Results — plain canvas; cards on #f0dfd0 */}
+              <section className="w-full bg-canvas">
+                <div ref={results.ref} className="mx-auto max-w-content px-6 py-10 md:px-8 md:py-10">
+                  <SectionHead eyebrow="After" eyebrowStart={resultsEyebrowStart} title="Results" titleStart={resultsTitleStart} active={results.shown} />
+                  <div className="mt-6 flex flex-col gap-4 md:flex-row">
+                    {stats.map((s, i) => (
+                      <div key={s.label} className="flex flex-1 flex-col justify-center gap-3 rounded-md border border-[rgba(0,0,0,0.2)] bg-[#f0dfd0] p-8">
+                        <p className="font-sans text-eyebrow-md font-bold uppercase text-ink"><Words text={s.label} active={results.shown} start={statsBase + i * 90} /></p>
+                        <p className="font-sans text-body-1 font-bold text-accent-matcha"><Words text={s.value} active={results.shown} start={statsBase + i * 90 + 60} /></p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </section>
+
+              {/* Design Process — own warm tone #f0dfd0; step cards on canvas, some bulleted */}
+              <section className="w-full bg-[#f0dfd0]">
+                <div ref={process.ref} className="mx-auto max-w-content px-6 py-10 md:px-8 md:py-10">
+                  <SectionHead eyebrow="Design Process" eyebrowStart={processEyebrowStart} title="Steps to iterations and alignment" titleStart={processTitleStart} active={process.shown} />
+                  <div className="mt-8">
+                    <div className={['mb-[29px] hidden grid-cols-4 gap-5 lg:grid', process.shown ? 'animate-fade-up' : 'opacity-0'].join(' ')}>
+                      {processSteps.map((_, i) => (
+                        <div key={i} className="relative flex h-4 items-center">
+                          <span className="z-10 size-4 shrink-0 rounded-full border-2 border-ink bg-[#f0dfd0]" />
+                          {i < processSteps.length - 1 && (
+                            <span className="absolute left-4 top-1/2 h-0 w-[calc(100%+20px)] -translate-y-1/2 border-t-2 border-dashed border-ink" />
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                    <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+                      {processSteps.map((s, i) => (
+                        <div key={s.step} className="flex flex-col gap-5">
+                          <p className="font-sans text-eyebrow-md font-bold uppercase text-ink"><Words text={s.step} active={process.shown} start={processStart + i * 90} /></p>
+                          <div className="flex-1 rounded-md border border-[rgba(0,0,0,0.1)] bg-canvas p-4">
+                            {s.items ? (
+                              <ul className="list-disc pl-4 font-sans text-body-2 font-normal text-ink">
+                                {s.items.map((item, j) => (
+                                  <li key={j}><Words block text={item} active={process.shown} start={processStart + i * 90 + 60 + j * 40} step={16} /></li>
+                                ))}
+                              </ul>
+                            ) : (
+                              <p className="font-sans text-body-2 font-normal text-ink"><Words text={s.body || ''} active={process.shown} start={processStart + i * 90 + 60} step={16} /></p>
+                            )}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              {/* CTA — own warm tone #f0dfd0; shared "Let's Chat" clip, autoplay + loop */}
+              <section className="w-full bg-[#f0dfd0]">
+                <div ref={cta.ref} className="mx-auto max-w-content px-6 py-10 md:px-8 md:py-10">
+                  <div className="flex flex-col items-center gap-4 text-center">
+                    <SectionHead eyebrow="Rest of the portfolio" eyebrowStart={ctaEyebrowStart} title="Let’s talk first!" titleStart={ctaTitleStart} active={cta.shown} />
+                    <p className="max-w-[900px] font-sans text-body-1 font-normal text-ink"><Words text={ctaBody} active={cta.shown} start={ctaBodyStart} step={14} /></p>
+                    <div className="flex items-center gap-4">
+                      <a href="mailto:kangdongsun@gmail.com" aria-label="Email Joe Kang" className="flex size-9 items-center justify-center rounded-full text-muted transition-colors duration-200 hover:text-ink">
+                        <MailIcon className="h-5 w-6" />
+                      </a>
+                      <a href="https://www.linkedin.com/in/joe-kang/" aria-label="Joe Kang on LinkedIn" className="flex size-9 items-center justify-center rounded-full text-muted transition-colors duration-200 hover:text-ink">
+                        <LinkedInIcon className="size-5" />
+                      </a>
+                    </div>
+                  </div>
+                  <div className="mt-5">
+                    <video ref={ctaVideoRef} src="/assets/cs-cta.mp4" muted loop playsInline aria-hidden="true"
+                      className="block w-full [-webkit-mask-composite:source-in] [mask-composite:intersect] [-webkit-mask-image:linear-gradient(to_right,transparent,#000_6%,#000_94%,transparent),linear-gradient(to_bottom,transparent,#000_12%,#000_88%,transparent)] [mask-image:linear-gradient(to_right,transparent,#000_6%,#000_94%,transparent),linear-gradient(to_bottom,transparent,#000_12%,#000_88%,transparent)]" />
+                  </div>
+                </div>
+              </section>
+            </main>
+            <Footer />
+            <NextProjectFloat nextHref="case-planfeatureadoption.html" />
+          </div>
+        );
+      }
+
+
+      /* ---------- NextProjectFloat (mirrors src/components/NextProjectFloat.tsx) ---------- */
+      function NextProjectFloat({ nextHref }) {
+        const [visible, setVisible] = useState(false);
+        useEffect(() => {
+          let raf = 0;
+          const update = () => {
+            raf = 0;
+            const fromBottom = document.documentElement.scrollHeight - window.scrollY - window.innerHeight;
+            setVisible(fromBottom < 1000);
+          };
+          const onScroll = () => { if (!raf) raf = requestAnimationFrame(update); };
+          update();
+          window.addEventListener('scroll', onScroll, { passive: true });
+          window.addEventListener('resize', onScroll);
+          return () => { window.removeEventListener('scroll', onScroll); window.removeEventListener('resize', onScroll); if (raf) cancelAnimationFrame(raf); };
+        }, []);
+        return (
+          <div className={['fixed bottom-5 right-5 z-40 flex flex-col gap-2 transition-all duration-500 ease-[var(--ease-out)] md:bottom-8 md:right-8',
+            visible ? 'translate-y-0 opacity-100' : 'pointer-events-none translate-y-3 opacity-0'].join(' ')}>
+            <a href={nextHref} className="flex items-center justify-center gap-1 rounded-sm bg-accent-persimmon px-4 py-3 font-sans text-eyebrow-sm font-bold uppercase text-surface-card transition-colors duration-200 hover:bg-[#af4233]">
+              Next Project
+              <PlayIcon className="size-4" />
+            </a>
+            <a href="preview.html" className="flex items-center justify-center gap-2.5 rounded-sm px-4 py-3 font-sans text-eyebrow-sm font-bold uppercase text-body transition-colors duration-200 hover:bg-ink/10">
+              Back Home
+              <HomeIcon className="size-4 text-ink" />
+            </a>
+          </div>
+        );
+      }
+
+      ReactDOM.createRoot(document.getElementById('root')).render(<CaseStudy />);
+    </script>
+  </body>
+</html>

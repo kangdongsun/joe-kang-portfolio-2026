@@ -1,0 +1,717 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Joe Kang — Home (preview)</title>
+    <meta name="description" content="Zero-build preview of the Joe Kang 2026 portfolio Home page." />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap"
+      rel="stylesheet"
+    />
+
+    <!--
+      PREVIEW HARNESS ONLY (no Node on this machine).
+      Renders the same components/classes/tokens as the real Vite app in src/.
+      Tailwind Play CDN + React UMD + Babel standalone = runs by just opening it.
+    -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      // Design tokens — identical to src/design-tokens.js
+      tailwind.config = {
+        future: { hoverOnlyWhenSupported: true },
+        theme: {
+          colors: {
+            ink: '#3e3e3e',
+            body: '#494949',
+            muted: '#777777',
+            'muted-soft': '#a4a4a4',
+            hairline: '#d2d2d2',
+            'hairline-soft': '#e8e8e8',
+            canvas: '#f8ede0',
+            'canvas-strong': '#ebd7bd',
+            'surface-neutral': '#faf6f2',
+            'surface-card': '#ffffff',
+            espresso: '#26211d',
+            'on-dark': '#ffffff',
+            'accent-sky': '#29aaee',
+            'accent-persimmon': '#f45d48',
+            'accent-error': '#ac3f3f',
+            'accent-ube': '#9c3fac',
+            'accent-matcha': '#3fac91',
+            success: '#3fac91',
+            warning: '#d3b153',
+            error: '#ac3f3f',
+          },
+          fontFamily: {
+            sans: ['Cabin', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+            serif: ['Georgia', 'serif'],
+          },
+          fontSize: {
+            hero: ['96px', { lineHeight: '112px', letterSpacing: '-3.84px' }],
+            h1: ['72px', { lineHeight: '88px', letterSpacing: '-2.88px' }],
+            h2: ['60px', { lineHeight: '72px', letterSpacing: '-2.4px' }],
+            h3: ['48px', { lineHeight: '64px', letterSpacing: '-1.92px' }],
+            h4: ['36px', { lineHeight: '48px', letterSpacing: '-1.44px' }],
+            h5: ['24px', { lineHeight: '32px', letterSpacing: '0px' }],
+            'body-1': ['20px', { lineHeight: '28px', letterSpacing: '0px' }],
+            'body-2': ['16px', { lineHeight: '24px', letterSpacing: '0px' }],
+            'body-3': ['14px', { lineHeight: '20px', letterSpacing: '0px' }],
+            'body-4': ['12px', { lineHeight: '16px', letterSpacing: '0px' }],
+            'eyebrow-lg': ['24px', { lineHeight: '32px', letterSpacing: '2.4px' }],
+            'eyebrow-md': ['16px', { lineHeight: '24px', letterSpacing: '1.6px' }],
+            'eyebrow-sm': ['12px', { lineHeight: '16px', letterSpacing: '1.2px' }],
+          },
+          borderRadius: {
+            none: '0px', xs: '2px', sm: '4px', md: '8px', lg: '12px',
+            xl: '16px', '2xl': '24px', card: '40px', full: '9999px',
+          },
+          extend: {
+            spacing: {
+              0.5: '2px', 1: '4px', 2: '8px', 2.5: '10px', 3: '12px', 4: '16px',
+              5: '20px', 6: '24px', 8: '32px', 9: '36px', 10: '40px', 12: '48px',
+              14: '56px', 16: '64px', 20: '80px', 24: '96px', 28: '112px',
+              32: '128px', 40: '160px', 60: '240px',
+            },
+            maxWidth: { frame: '1440px', content: '1376px' },
+            boxShadow: { card: '0 0 20px rgba(8,105,225,0.2)' },
+            keyframes: {
+              'fade-up': {
+                '0%': { opacity: '0', transform: 'translateY(14px)' },
+                '100%': { opacity: '1', transform: 'translateY(0)' },
+              },
+              'word-reveal': {
+                '0%': { opacity: '0', filter: 'blur(3px)', transform: 'translateY(0.3em)' },
+                '55%': { filter: 'blur(0)' },
+                '100%': { opacity: '1', filter: 'blur(0)', transform: 'translateY(0)' },
+              },
+            },
+            animation: {
+              'fade-up': 'fade-up 0.6s var(--ease-out) both',
+              'word-reveal': 'word-reveal 0.6s var(--ease-out) both',
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      html { scroll-behavior: smooth; }
+      body { font-variation-settings: 'wdth' 100; }
+      :root { --ease-out: cubic-bezier(0.16, 1, 0.3, 1); }
+      /* Hero backdrop: flat cream on mobile/tablet; full-width video-matched
+         tan gradient on desktop so >1440 side-panels stay seamless. */
+      .hero-bg { background: #f8ede0; }
+      @media (min-width: 1024px) {
+        .hero-bg {
+          /* horizontal overlay lightens the right panel to match the video's
+             lighter right edge; vertical layer matches the left edge */
+          background:
+            linear-gradient(to right, rgba(250,232,205,0) 0%, rgba(250,232,205,0) 58%, rgba(250,232,205,0.5) 100%),
+            linear-gradient(180deg,#e9cca6 0%,#ebcea8 15%,#ecd0aa 34%,#efd7b6 54%,#ead3b4 74%,#e3c9ac 86%,#f8ede0 97%);
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+          animation-duration: 0.001ms !important;
+          transition-duration: 0.001ms !important;
+        }
+      }
+      /* Per-letter hover distortion (Hero) — smooths useHoverLetters' per-frame
+         transform/filter writes into a fluid trail. */
+      [data-letter] {
+        transition: transform 200ms var(--ease-out), filter 200ms var(--ease-out);
+        will-change: transform, filter;
+      }
+    </style>
+
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script>
+      // Force the CLASSIC JSX runtime so Babel emits React.createElement
+      // (the automatic runtime emits an ESM `import` that can't run inline).
+      Babel.registerPreset('react-classic', {
+        plugins: [
+          [
+            Babel.availablePlugins['transform-react-jsx'],
+            { runtime: 'classic', pragma: 'React.createElement', pragmaFrag: 'React.Fragment' },
+          ],
+        ],
+      });
+    </script>
+  </head>
+  <body class="bg-canvas text-ink font-sans antialiased">
+    <div id="root"></div>
+
+    <script type="text/babel" data-presets="react-classic">
+      const { useEffect, useRef, useState } = React;
+
+      /* ---------- icons (from Figma FOUNDATIONS) ---------- */
+      const Logo = ({ className }) => (
+        <svg viewBox="0 0 30.1073 32.0005" fill="none" className={className} aria-hidden="true">
+          <path d="M13.5887 0C14.3214 7.84365e-05 14.9158 0.594406 14.9158 1.32715V7.46875L22.952 0L25.2332 2.4541C25.7193 2.97742 25.689 3.7959 25.1658 4.28223L19.7127 9.34961L23.6834 18.4434H28.8358C29.5381 18.4434 30.1073 19.0125 30.1073 19.7148V23.0869H25.7108L25.7137 23.0938H21.6336C21.1098 23.0936 20.6348 22.7852 20.4217 22.3066L16.1375 12.6855L14.9158 13.8135V21.7588H14.9139V24.5332C14.9136 30.2182 8.80549 33.8122 3.83577 31.0518C-0.602522 28.586 -1.33189 22.502 2.39729 19.0566L10.2713 11.7812V4.64355H4.90901C4.20666 4.64355 3.63753 4.07443 3.63753 3.37207V0H13.5887ZM5.54866 22.4678C4.14213 23.7674 4.41757 26.0622 6.09163 26.9922C7.96596 28.0326 10.269 26.6771 10.2694 24.5332V20.0215H10.2713V18.1035L5.54866 22.4678Z" fill="currentColor" />
+        </svg>
+      );
+      const MenuIcon = ({ className }) => (
+        <svg viewBox="0 0 18 12.75" fill="none" className={className} aria-hidden="true">
+          <path d="M0 1.125C0 0.50368 0.50368 0 1.125 0H16.875C17.4963 0 18 0.50368 18 1.125C18 1.74632 17.4963 2.25 16.875 2.25H1.125C0.50368 2.25 0 1.74632 0 1.125Z" fill="currentColor" />
+          <path d="M0 6.375C0 5.75368 0.50368 5.25 1.125 5.25H16.875C17.4963 5.25 18 5.75368 18 6.375C18 6.99632 17.4963 7.5 16.875 7.5H1.125C0.50368 7.5 0 6.99632 0 6.375Z" fill="currentColor" />
+          <path d="M1.125 10.5C0.50368 10.5 0 11.0037 0 11.625C0 12.2463 0.50368 12.75 1.125 12.75H16.875C17.4963 12.75 18 12.2463 18 11.625C18 11.0037 17.4963 10.5 16.875 10.5H1.125Z" fill="currentColor" />
+        </svg>
+      );
+      const CloseIcon = ({ className }) => (
+        <svg viewBox="0 0 18 18" fill="none" className={className} aria-hidden="true">
+          <path d="M2 2L16 16M16 2L2 16" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round" />
+        </svg>
+      );
+      const LinkedInIcon = ({ className }) => (
+        <svg viewBox="0 0 20 20" fill="none" className={className} aria-hidden="true">
+          <path fillRule="evenodd" clipRule="evenodd" d="M10.8307 8.98226V8.95303C10.8247 8.96283 10.8164 8.97264 10.8113 8.98226H10.8307Z" fill="currentColor" />
+          <path fillRule="evenodd" clipRule="evenodd" d="M3.33333 0C1.49238 0 0 1.49238 0 3.33333V16.6667C0 18.5076 1.49238 20 3.33333 20H16.6667C18.5076 20 20 18.5076 20 16.6667V3.33333C20 1.49238 18.5076 0 16.6667 0H3.33333ZM6.22075 16.6155H3.25345V7.68818H6.22075V16.6155ZM4.7371 6.46971H4.71749C3.72211 6.46971 3.07692 5.78396 3.07692 4.92681C3.07692 4.05086 3.74097 3.38453 4.75653 3.38453C5.77231 3.38453 6.39653 4.05086 6.41596 4.92681C6.41596 5.78396 5.77231 6.46971 4.7371 6.46971ZM16.9231 16.6155H13.955V11.8393C13.955 10.6397 13.5262 9.82088 12.4519 9.82088C11.6315 9.82088 11.144 10.3722 10.9292 10.9063C10.8512 11.0971 10.8308 11.3622 10.8308 11.6298V16.6155H7.86211C7.86211 16.6155 7.90189 8.52571 7.86211 7.68822H10.8308V8.95323C11.2252 8.34633 11.9291 7.47864 13.5058 7.47864C15.459 7.47864 16.9231 8.75424 16.9231 11.4961V16.6155Z" fill="currentColor" />
+        </svg>
+      );
+
+      /* ---------- scroll reveal ---------- */
+      function useReveal() {
+        const ref = useRef(null);
+        const [shown, setShown] = useState(false);
+        useEffect(() => {
+          const el = ref.current;
+          if (!el) return;
+          const io = new IntersectionObserver(([e]) => {
+            if (e.isIntersecting) { setShown(true); io.disconnect(); }
+          }, { threshold: 0.15, rootMargin: '0px 0px -10% 0px' });
+          io.observe(el);
+          return () => io.disconnect();
+        }, []);
+        return { ref, shown };
+      }
+
+      /* ---------- scroll blur: softens a section as it scrolls up out of
+         view (the outgoing half of Hero -> Cards -> About). Writes
+         filter/opacity straight to the DOM node inside a rAF, no re-render. */
+      function useScrollBlur({ maxBlur = 14, exitPx = 480 } = {}) {
+        const ref = useRef(null);
+        useEffect(() => {
+          const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+          if (reduced) return;
+          const el = ref.current;
+          if (!el) return;
+          // Desktop-only (matches this project's mobile/desktop split at `lg`)
+          // — on mobile, sections scroll past too fast for this to read as
+          // intentional, it just looks like flicker.
+          const desktopQuery = window.matchMedia('(min-width: 1024px)');
+          let raf = 0;
+          const update = () => {
+            raf = 0;
+            if (!desktopQuery.matches) { el.style.filter = ''; el.style.opacity = ''; return; }
+            const bottom = el.getBoundingClientRect().bottom;
+            const progress = Math.min(1, Math.max(0, 1 - bottom / exitPx));
+            el.style.filter = progress > 0.01 ? `blur(${(progress * maxBlur).toFixed(1)}px)` : '';
+            el.style.opacity = String(1 - progress * 0.35);
+          };
+          const onScroll = () => { if (!raf) raf = requestAnimationFrame(update); };
+          update();
+          window.addEventListener('scroll', onScroll, { passive: true });
+          window.addEventListener('resize', onScroll);
+          desktopQuery.addEventListener('change', update);
+          const resizeObserver = new ResizeObserver(onScroll);
+          resizeObserver.observe(el);
+          return () => {
+            window.removeEventListener('scroll', onScroll);
+            window.removeEventListener('resize', onScroll);
+            desktopQuery.removeEventListener('change', update);
+            resizeObserver.disconnect();
+            if (raf) cancelAnimationFrame(raf);
+          };
+        }, [maxBlur, exitPx]);
+        return ref;
+      }
+
+      /* ---------- letter hover: mouse-proximity distortion for Hero copy —
+         letters near the cursor scale up, falling off with distance.
+         Decorative only: skipped under prefers-reduced-motion, gated to
+         hover-capable fine pointers. Writes to [data-letter] nodes in a rAF. */
+      function useHoverLetters() {
+        const ref = useRef(null);
+        useEffect(() => {
+          if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+          if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+          const el = ref.current;
+          if (!el) return;
+          const RADIUS = 70, MAX_SCALE = 0.26;
+          let raf = 0, pointer = null;
+          const apply = () => {
+            raf = 0;
+            el.querySelectorAll('[data-letter]').forEach((letter) => {
+              if (!pointer) { letter.style.transform = ''; return; }
+              const r = letter.getBoundingClientRect();
+              const dx = pointer.x - (r.left + r.width / 2);
+              const dy = pointer.y - (r.top + r.height / 2);
+              const t = Math.max(0, 1 - Math.hypot(dx, dy) / RADIUS);
+              const eased = t * t;
+              if (eased < 0.005) { letter.style.transform = ''; }
+              else {
+                letter.style.transform = `scale(${(1 + eased * MAX_SCALE).toFixed(3)})`;
+              }
+            });
+          };
+          const onMove = (e) => {
+            if (e.pointerType !== 'mouse') return;
+            pointer = { x: e.clientX, y: e.clientY };
+            if (!raf) raf = requestAnimationFrame(apply);
+          };
+          const onLeave = () => { pointer = null; if (!raf) raf = requestAnimationFrame(apply); };
+          el.addEventListener('pointermove', onMove);
+          el.addEventListener('pointerleave', onLeave);
+          return () => {
+            el.removeEventListener('pointermove', onMove);
+            el.removeEventListener('pointerleave', onLeave);
+            if (raf) cancelAnimationFrame(raf);
+          };
+        }, []);
+        return ref;
+      }
+
+      /* Combines two refs onto one DOM node (Hero needs both scroll-blur and
+         hover-letters on its outer <section>). */
+      function mergeRefs(...refs) {
+        return (node) => {
+          for (const ref of refs) {
+            if (!ref) continue;
+            if (typeof ref === 'function') ref(node);
+            else ref.current = node;
+          }
+        };
+      }
+
+      /* ---------- Words: the site's one word-by-word text reveal (Hero,
+         section header, case-study cards). `runs` lets a highlighted/serif
+         phrase continue the same stagger sequence as plain text. `active`
+         gates playback for scroll-triggered callers (false = invisible, no
+         animation, until useReveal flips it true). ---------- */
+      function tokenizeRuns(runs) {
+        const tokens = [];
+        for (const run of runs) {
+          for (const word of run.text.split(/\s+/).filter(Boolean)) {
+            tokens.push({ text: word, className: run.className });
+          }
+        }
+        return tokens;
+      }
+      function Words({ text, runs, start = 0, step = 55, active = true, className, hoverLetters = false }) {
+        const tokens = tokenizeRuns(runs || (text ? [{ text }] : []));
+        // Outside the Hero, copy reveals a block at a time rather than word by
+        // word — only `hoverLetters` (Hero-only) keeps the per-word stagger.
+        if (!hoverLetters) {
+          return (
+            <span
+              className={['inline-block align-top', active ? 'animate-word-reveal' : 'opacity-0', className].filter(Boolean).join(' ')}
+              style={active ? { animationDelay: start + 'ms' } : undefined}
+            >
+              {tokens.map((token, i) => (
+                <span key={i} className={token.className}>
+                  {token.text}{i < tokens.length - 1 ? ' ' : ''}
+                </span>
+              ))}
+            </span>
+          );
+        }
+        return tokens.map((token, i) => (
+          <span key={i}>
+            <span
+              className={['inline-block', active ? 'animate-word-reveal' : 'opacity-0', className, token.className].filter(Boolean).join(' ')}
+              style={active ? { animationDelay: (start + i * step) + 'ms' } : undefined}
+            >
+              {hoverLetters
+                ? Array.from(token.text).map((ch, ci) => <span key={ci} data-letter className="inline-block">{ch}</span>)
+                : token.text}
+            </span>
+            {i < tokens.length - 1 ? ' ' : ''}
+          </span>
+        ));
+      }
+
+      /* ---------- data ---------- */
+      const projects = [
+        {
+          id: 'meta', eyebrow: 'Meta', title: 'Messaging Multi-Destination Adoption',
+          description: [
+            { text: 'Increased feature adoption through product education and simplifying the UI. This specific project led to ' },
+            { text: '+$98K/day', highlight: true }, { text: ' and ' },
+            { text: '+8%', highlight: true }, { text: ' in Product Adoption' },
+          ],
+          image: '/assets/meta-card.png',
+          imageAlt: 'Meta Ads Manager campaign screen showing message-destination settings and a campaign score of 100',
+          accent: 'sky',
+          href: 'case-messaging.html',
+        },
+        {
+          id: 'gusto', eyebrow: 'Gusto', title: 'A La Carte Pricing Plan',
+          description: [
+            { text: 'With a 3 pricing plan model, introduce an “A La Carte” plan that allows users on the cheapest plan to add product feature as an add-on. This project increased ARR by ' },
+            { text: '+6.5%', highlight: true },
+          ],
+          image: '/assets/gusto-card.png',
+          imageAlt: 'Gusto plans and pricing screen showing featured add-ons in an add-on store',
+          accent: 'persimmon',
+          href: 'case-alacarte.html',
+        },
+        {
+          id: 'gusto-feature-activation', eyebrow: 'Gusto', title: 'Plan Feature Adoption',
+          description: [
+            { text: 'Users on the middle plan were churning because they weren’t using all the features that the plan offered. Introduced the Feature Activation Checklist to reduce churn that resulted in ' },
+            { text: '+8.4%', highlight: true }, { text: ' in new feature adoption and ' },
+            { text: '-2.4%', highlight: true }, { text: ' in churn rate' },
+          ],
+          image: '/assets/gusto-feature-card.png',
+          imageAlt: 'Gusto "Set up your account" screen showing the Feature Activation Checklist at 40% complete',
+          accent: 'persimmon',
+          href: 'case-planfeatureadoption.html',
+        },
+      ];
+      // Desktop hover background tint per card (Meta = light blue, Gusto = peach).
+      const hoverTintByAccent = { sky: 'lg:hover:bg-[#dce3e9]', persimmon: 'lg:hover:bg-[#f6d6c7]', error: 'lg:hover:bg-[#f6d6c7]' };
+      // Metric highlights (+$98K/day, +6.5%, ...) use Matcha 100 (#3fac91) and bold weight — consistent across every card.
+      const highlightByAccent = { sky: 'font-bold text-accent-matcha', persimmon: 'font-bold text-accent-matcha', error: 'font-bold text-accent-matcha' };
+
+      /* ---------- Header ---------- */
+      const pages = [
+        { label: 'Projects', href: '#projects', selected: true },
+        { label: 'About', href: 'about.html', selected: false },
+      ];
+      const CONTACT_HREF = 'mailto:kangdongsun@gmail.com';
+      const unselectedItem = 'text-muted transition-colors duration-200 hover:text-ink';
+      const SocialButton = ({ href, label, children }) => (
+        <a href={href} aria-label={label} className={'flex size-10 items-center justify-center rounded-full ' + unselectedItem}>
+          {children}
+        </a>
+      );
+      function Header() {
+        const [open, setOpen] = useState(false);
+        return (
+          <header className={['absolute inset-x-0 top-0 z-20',
+            open ? 'bg-canvas/60 backdrop-blur-2xl lg:bg-[rgba(0,0,0,0)] lg:backdrop-blur-none' : ''].filter(Boolean).join(' ')}>
+            <div className="mx-auto flex w-full max-w-frame items-center gap-2.5 px-4 py-4 md:px-10">
+              <a href="#home" aria-label="Joe Kang — home" className="flex items-center">
+                <Logo className="h-8 w-[30px] text-ink" />
+              </a>
+              {/* Desktop nav (lg+) */}
+              <nav className="hidden flex-1 items-center justify-end lg:flex">
+                <div className="flex items-center gap-2 rounded-full px-8 py-1">
+                  {pages.map((item) => (
+                    <a key={item.label} href={item.href}
+                       aria-current={item.selected ? 'page' : undefined}
+                       className={['rounded-sm px-4 py-2 font-sans text-body-2 font-semibold',
+                         item.selected ? 'bg-[rgba(0,0,0,0.1)] text-ink transition-colors duration-200' : unselectedItem].join(' ')}>
+                      {item.label}
+                    </a>
+                  ))}
+                  <a href={CONTACT_HREF} className={'rounded-sm px-4 py-2 font-sans text-body-2 font-semibold ' + unselectedItem}>Contact</a>
+                  <SocialButton href="https://www.linkedin.com/in/joe-kang/" label="Joe Kang on LinkedIn"><LinkedInIcon className="size-[22px]" /></SocialButton>
+                </div>
+              </nav>
+              {/* Mobile hamburger (below lg) */}
+              <button type="button" onClick={() => setOpen((v) => !v)} aria-label={open ? 'Close menu' : 'Open menu'} aria-expanded={open}
+                className="-mr-2.5 ml-auto flex size-11 items-center justify-center text-ink lg:hidden">
+                {open ? <CloseIcon className="w-[18px]" /> : <MenuIcon className="w-[18px]" />}
+              </button>
+            </div>
+            {open && (
+              <div className="lg:hidden">
+                <nav className="flex flex-col">
+                  {pages.map((item) => (
+                    <a key={item.label} href={item.href} onClick={() => setOpen(false)}
+                       className={['flex h-16 items-center justify-center border-b border-[rgba(0,0,0,0)] px-4 py-2 font-sans text-body-2 font-normal transition-colors duration-200',
+                         item.selected ? 'bg-[rgba(0,0,0,0.1)] text-[#000000]' : 'text-ink hover:bg-[rgba(0,0,0,0.04)]'].join(' ')}>{item.label}</a>
+                  ))}
+                  <a href={CONTACT_HREF} onClick={() => setOpen(false)} className="flex h-16 items-center justify-center border-b border-[rgba(0,0,0,0)] px-4 py-2 font-sans text-body-2 font-normal text-ink transition-colors duration-200 hover:bg-[rgba(0,0,0,0.04)]">Contact</a>
+                  <a href="https://www.linkedin.com/in/joe-kang/" target="_blank" rel="noreferrer" onClick={() => setOpen(false)} className="flex h-16 items-center justify-center border-b border-[rgba(0,0,0,0)] px-4 py-2 font-sans text-body-2 font-normal text-ink transition-colors duration-200 hover:bg-[rgba(0,0,0,0.04)]">Linkedin</a>
+                </nav>
+              </div>
+            )}
+          </header>
+        );
+      }
+
+      /* ---------- Hero ---------- */
+      function Hero({ ready }) {
+        const blurRef = useScrollBlur({ exitPx: 560 });
+        const hoverRef = useHoverLetters();
+        const desktopVideoRef = useRef(null);
+        const mobileVideoRef = useRef(null);
+
+        // Videos start paused; only play once the preloader curtain lifts.
+        useEffect(() => {
+          if (!ready) return;
+          desktopVideoRef.current && desktopVideoRef.current.play().catch(() => {});
+          mobileVideoRef.current && mobileVideoRef.current.play().catch(() => {});
+        }, [ready]);
+
+        // Play once, hold on the last frame for 3s, then replay (instead of loop).
+        const replayAfterPause = (e) => {
+          const video = e.currentTarget;
+          window.setTimeout(() => { video.currentTime = 0; video.play().catch(() => {}); }, 3000);
+        };
+        return (
+          <section id="home" ref={mergeRefs(blurRef, hoverRef)} className="hero-bg relative w-full">
+            {/* ===== Desktop / lg+ ===== */}
+            <div className="relative mx-auto hidden max-w-frame overflow-hidden lg:block">
+              <video ref={desktopVideoRef} className="absolute inset-0 h-full w-full object-cover object-center min-[1441px]:[-webkit-mask-image:linear-gradient(to_right,transparent,#000_11%,#000_86%,transparent)] min-[1441px]:[mask-image:linear-gradient(to_right,transparent,#000_11%,#000_86%,transparent)]" src="/assets/hero-video.mp4" muted playsInline onEnded={replayAfterPause} aria-hidden="true" />
+              <div className="relative h-[810px] w-full">
+                <div className="absolute left-[calc(50%-373px)] top-1/2 flex w-[406px] -translate-x-1/2 -translate-y-1/2 flex-col items-end">
+                  <h1 className="whitespace-nowrap font-sans text-hero font-bold tracking-[-3.84px] text-ink"><Words text="Joe Kang" start={150} active={ready} hoverLetters /></h1>
+                  <p className="text-right font-sans text-h5 font-semibold leading-[32px] text-ink"><Words text="Senior Product Designer" start={270} active={ready} hoverLetters /></p>
+                  <div className="flex items-center justify-end gap-1">
+                    {/* Literal 📍 per Figma, kept outside <Words> — see Hero.tsx */}
+                    <span aria-hidden="true" className="shrink-0 text-h5 leading-[32px]">📍</span>
+                    <p className="text-right font-sans text-h5 font-semibold leading-[32px] text-ink"><Words text="SF Bay Area" start={450} active={ready} hoverLetters /></p>
+                  </div>
+                </div>
+                {/* Bold italic tagline; top aligned with "Senior Product Designer"'s
+                    top (50%+24px); forced to exactly 2 lines via <br/> + nowrap. */}
+                <p className="absolute left-[calc(50%+205px)] top-[calc(50%+24px)] w-[294px] whitespace-nowrap text-left font-sans text-[24px] italic leading-[32px] text-ink">
+                  <Words text="Driving growth and building" start={780} active={ready} hoverLetters />
+                  <br />
+                  <Words start={1000} active={ready} hoverLetters runs={[
+                    { text: 'trust through' },
+                    { text: 'mindful design.', className: 'text-accent-persimmon' },
+                  ]} />
+                </p>
+              </div>
+            </div>
+
+            {/* Desktop bottom blend — full-width over video AND tan side-panels */}
+            <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 hidden h-[13%] bg-[linear-gradient(to_bottom,rgba(248,237,224,0),#f8ede0_65%)] lg:block" />
+
+            {/* ===== Mobile / tablet (<lg) ===== */}
+            <div className="lg:hidden">
+              <div className="relative aspect-[390/643] w-full overflow-hidden">
+                <video ref={mobileVideoRef} className="absolute inset-0 h-full w-full object-cover object-center" src="/assets/hero-video.mp4" muted loop playsInline aria-hidden="true" />
+                <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 h-[24%] bg-[linear-gradient(to_bottom,rgba(248,237,224,0),#f8ede0_78%)]" />
+              </div>
+              <div className="flex flex-col items-center px-3 pb-14 -mt-5 text-center">
+                <h1 className="whitespace-nowrap font-sans text-hero font-bold tracking-[-3.84px] text-ink"><Words text="Joe Kang" start={120} step={55} active={ready} hoverLetters /></h1>
+                <p className="mt-1 font-sans text-[20px] font-bold leading-[28px] text-ink"><Words text="Senior Product Designer" start={230} step={55} active={ready} hoverLetters /></p>
+                <div className="flex items-center justify-center gap-1">
+                  <span aria-hidden="true" className="shrink-0 text-[20px] leading-[28px]">📍</span>
+                  <p className="font-sans text-[20px] font-bold leading-[28px] text-ink"><Words text="SF Bay Area" start={395} step={55} active={ready} hoverLetters /></p>
+                </div>
+              </div>
+            </div>
+          </section>
+        );
+      }
+
+      /* ---------- ProjectCard ---------- */
+      // Text (eyebrow/title/description) uses the shared Words reveal, same as
+      // the Hero and section header; the device image gets the plain fade-up.
+      function ProjectCard({ project }) {
+        const { ref, shown } = useReveal();
+        const descriptionRuns = project.description.map((run) => ({
+          text: run.text,
+          className: run.highlight ? highlightByAccent[project.accent] : undefined,
+        }));
+        return (
+          <article ref={ref}
+            className={['group relative w-full max-w-content rounded-md bg-canvas p-0 lg:rounded-card lg:p-2',
+              'transition-colors duration-300 ease-[var(--ease-out)]',
+              hoverTintByAccent[project.accent]].join(' ')}>
+            {project.href && <a href={project.href} aria-label={project.title + ' — case study'} className="absolute inset-0 z-20" />}
+            <div className="flex flex-col gap-3 lg:h-[574px] lg:flex-row lg:items-center lg:gap-20 lg:px-8">
+              <div className={['relative flex min-h-[269px] w-full items-center justify-center py-6 sm:min-h-[320px] lg:h-full lg:min-h-0 lg:flex-1 lg:py-0',
+                shown ? 'animate-fade-up' : 'opacity-0'].join(' ')}>
+                <div className="relative w-[86%] max-w-[760px] lg:w-full">
+                  <img src="/assets/device-shadow.png" alt="" aria-hidden="true"
+                    className="pointer-events-none absolute bottom-0 left-1/2 z-0 w-[96%] -translate-x-1/2 translate-y-[34%] opacity-60 transition-transform duration-300 ease-[var(--ease-out)] lg:group-hover:scale-[0.88]" />
+                  <img src={project.image} alt={project.imageAlt} loading="lazy"
+                    className="relative z-10 block w-full object-contain transition-transform duration-300 ease-[var(--ease-out)] lg:group-hover:-translate-y-2.5" />
+                </div>
+              </div>
+              <div className="flex w-full flex-col gap-2 px-1 pb-5 pr-8 text-body lg:flex-1 lg:gap-3 lg:px-0 lg:pb-0">
+                <div className="flex flex-col gap-1">
+                  <p className="font-sans text-eyebrow-sm font-bold uppercase text-body lg:text-eyebrow-md"><Words text={project.eyebrow} active={shown} /></p>
+                  <h3 className="font-sans text-[20px] font-bold leading-[28px] text-body md:text-[28px] md:leading-[36px] lg:text-h4"><Words text={project.title} start={110} active={shown} /></h3>
+                </div>
+                <p className="font-sans text-[14px] font-normal leading-[20px] text-body md:text-[16px] md:leading-[24px] lg:text-body-1">
+                  <Words runs={descriptionRuns} start={320} step={18} active={shown} />
+                </p>
+              </div>
+            </div>
+          </article>
+        );
+      }
+
+      /* ---------- SelectedProjects ---------- */
+      function SelectedProjects() {
+        const { ref, shown } = useReveal();
+        const blurRef = useScrollBlur({ exitPx: 560 });
+        return (
+          <section id="projects" ref={blurRef} className="w-full bg-canvas px-2 py-8 md:px-8 lg:py-20">
+            <div className="mx-auto max-w-content">
+              <div ref={ref} className="flex flex-col gap-1 pr-8 pt-4 md:pt-12 lg:pt-0">
+                <p className="font-sans text-eyebrow-sm font-bold uppercase text-body lg:text-eyebrow-md"><Words text="Couple of my" active={shown} /></p>
+                <h2 className="font-sans text-[24px] font-bold leading-[32px] text-ink md:text-[36px] md:leading-[44px] lg:text-h3"><Words text="Selected Projects" start={90} active={shown} /></h2>
+              </div>
+              <div className="mt-10 flex flex-col gap-10 lg:mt-2.5 lg:gap-2.5">
+                {projects.map((p) => <ProjectCard key={p.id} project={p} />)}
+              </div>
+            </div>
+          </section>
+        );
+      }
+
+      /* ---------- ComingSoon ("More Projects — Coming Soon!" banner) ----------
+         Replaces the old scroll-pinned About bio block — that content now
+         lives on its own page (about.html); Home's bottom is just this short
+         teaser between Selected Projects and the Footer. */
+      function ComingSoon() {
+        const { ref, shown } = useReveal();
+        // #f0dfd0 (not Figma's #efe1d2) so this runs seamlessly into the
+        // Footer — see ComingSoon.tsx.
+        return (
+          <section className="w-full bg-[#f0dfd0] px-6 py-20 md:px-8 lg:pb-20 lg:pt-40">
+            <div ref={ref} className="mx-auto flex max-w-content flex-col items-center gap-1 text-center">
+              <p className="font-sans text-eyebrow-sm font-bold uppercase text-body lg:text-eyebrow-md"><Words text="More Projects" active={shown} /></p>
+              <h2 className="font-sans text-[24px] font-bold leading-[32px] text-ink md:text-[36px] md:leading-[44px] lg:text-h3"><Words text="Coming Soon!" start={90} active={shown} /></h2>
+            </div>
+          </section>
+        );
+      }
+
+      /* ---------- Footer ---------- */
+      function Footer() {
+        return (
+          <footer className="w-full bg-[#f0dfd0] px-8 py-8">
+            <div className="mx-auto flex max-w-content items-center justify-center">
+              <p className="font-sans text-body-4 font-normal text-body">2026 Joe Kang. All Rights Reserved</p>
+            </div>
+          </footer>
+        );
+      }
+
+      /* ---------- Preloader (mirrors src/components/Preloader.tsx) ---------- */
+      const LIFT_MS = 650;
+      // Letter choreography — the name starts before the mark has settled.
+      const LOGO_MS = 620, LETTER_START_MS = 120, LETTER_STAGGER_MS = 70, LETTER_MS = 520;
+      const WORDMARK = 'Joe Kang';
+      // The curtain waits for exactly the reveal, derived from the constants above.
+      const REVEAL_DONE_MS = LETTER_START_MS + (WORDMARK.length - 1) * LETTER_STAGGER_MS + LETTER_MS;
+      const HOLD_AT_FULL_MS = 220;
+      // Whole lockup creeps upward the entire time it's on screen — linear, so
+      // it reads as continuous motion rather than settling.
+      const DRIFT_MS = REVEAL_DONE_MS + HOLD_AT_FULL_MS + LIFT_MS;
+      const DRIFT_FROM_PX = 14, DRIFT_TO_PX = -18;
+      function Preloader({ onLiftStart, onDone }) {
+        const [mounted, setMounted] = useState(false);
+        const [ready, setReady] = useState(false);
+        const [lifting, setLifting] = useState(false);
+
+        useEffect(() => {
+          const raf = requestAnimationFrame(() => setMounted(true));
+          // rAF is paused in background tabs — timer is the backstop.
+          const t = window.setTimeout(() => setMounted(true), 60);
+          return () => { cancelAnimationFrame(raf); window.clearTimeout(t); };
+        }, []);
+
+        // Lift only once the page has loaded AND the minimum has elapsed.
+        useEffect(() => {
+          let loaded = document.readyState === 'complete';
+          let revealed = false;
+          const check = () => { if (loaded && revealed) setReady(true); };
+          const onLoad = () => { loaded = true; check(); };
+          if (!loaded) window.addEventListener('load', onLoad);
+          const timer = window.setTimeout(() => { revealed = true; check(); }, REVEAL_DONE_MS);
+          return () => { window.clearTimeout(timer); window.removeEventListener('load', onLoad); };
+        }, []);
+
+        useEffect(() => {
+          if (!ready) return;
+          const t = window.setTimeout(() => { setLifting(true); onLiftStart(); }, HOLD_AT_FULL_MS);
+          return () => clearTimeout(t);
+        }, [ready]);
+
+        // onDone unmounts the overlay AND restores body scroll — it must never
+        // be skipped, or the page renders fine but refuses to scroll. See
+        // Preloader.tsx: transitionend can't be the only trigger.
+        const [done, setDone] = useState(false);
+        const finish = () => { if (done) return; setDone(true); onDone(); };
+        useEffect(() => {
+          if (!lifting) return;
+          const t = window.setTimeout(finish, LIFT_MS + 150);
+          return () => clearTimeout(t);
+        }, [lifting]);
+
+        return (
+          <div className="fixed inset-0 z-50 flex flex-col items-center justify-center overflow-hidden bg-[#000000] transition-transform ease-[var(--ease-out)]"
+            style={{ transitionDuration: LIFT_MS + 'ms', transform: lifting ? 'translateY(-100%)' : 'translateY(0)' }}
+            onTransitionEnd={(e) => { if (e.target !== e.currentTarget) return; if (e.propertyName === 'transform' && lifting) finish(); }}
+            aria-hidden="true">
+            {/* Continuous upward drift of the whole lockup. */}
+            <div className="flex flex-col items-center gap-[9px] transition-transform ease-linear"
+              style={{ transitionDuration: DRIFT_MS + 'ms',
+                       transform: 'translateY(' + (mounted ? DRIFT_TO_PX : DRIFT_FROM_PX) + 'px)' }}>
+              <div className="transition-[opacity,transform,filter] ease-[var(--ease-out)]"
+                style={{ transitionDuration: LOGO_MS + 'ms', opacity: mounted ? 1 : 0,
+                         transform: mounted ? 'translateY(0)' : 'translateY(28px)',
+                         filter: mounted ? 'blur(0px)' : 'blur(10px)' }}>
+                <Logo className="h-[100px] w-auto text-on-dark" />
+              </div>
+              {/* Per-letter rise — staggered transitions, no keyframe needed. */}
+              <p className="flex font-sans text-h5 font-bold text-on-dark">
+                {WORDMARK.split('').map((ch, i) => (
+                  <span key={i}
+                    className="inline-block whitespace-pre transition-[opacity,transform,filter] ease-[var(--ease-out)]"
+                    style={{ transitionDuration: LETTER_MS + 'ms',
+                             transitionDelay: (LETTER_START_MS + i * LETTER_STAGGER_MS) + 'ms',
+                             opacity: mounted ? 1 : 0,
+                             transform: mounted ? 'translateY(0)' : 'translateY(22px)',
+                             filter: mounted ? 'blur(0px)' : 'blur(7px)' }}>
+                    {ch === ' ' ? '\u00a0' : ch}
+                  </span>
+                ))}
+              </p>
+            </div>
+          </div>
+        );
+      }
+
+      /* ---------- App ---------- */
+      // Curtain plays once per browser session — sessionStorage so a new
+      // visit later still gets it, but reloads within the same session don't.
+      const PRELOAD_SEEN_KEY = 'jk:preloaded';
+      function hasPreloaded() {
+        try { return sessionStorage.getItem(PRELOAD_SEEN_KEY) === '1'; } catch { return false; }
+      }
+      function App() {
+        const [preloading, setPreloading] = useState(() => !hasPreloaded());
+        const [ready, setReady] = useState(() => hasPreloaded());
+        useEffect(() => {
+          if (!preloading) return;
+          const prev = document.body.style.overflow;
+          document.body.style.overflow = 'hidden';
+          return () => { document.body.style.overflow = prev; };
+        }, [preloading]);
+        const finishPreload = () => {
+          setPreloading(false);
+          try { sessionStorage.setItem(PRELOAD_SEEN_KEY, '1'); } catch {}
+        };
+        return (
+          <>
+            {preloading && <Preloader onLiftStart={() => setReady(true)} onDone={finishPreload} />}
+            <div className="relative min-h-screen bg-canvas">
+              <Header />
+              <main><Hero ready={ready} /><SelectedProjects /><ComingSoon /></main>
+              <Footer />
+            </div>
+          </>
+        );
+      }
+
+      ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+  </body>
+</html>

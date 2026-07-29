@@ -1,0 +1,82 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light; /* the file is a single warm-light design */
+    /* The one easing curve for all UI motion — reveals, hovers, transitions.
+       A single shared token (rather than each animation picking its own) is
+       what makes the motion read as one system instead of several. */
+    --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-canvas text-ink font-sans antialiased;
+    /* Cabin ships as a variable font; keep normal width axis */
+    font-variation-settings: 'wdth' 100;
+  }
+}
+
+@layer components {
+  /* Hero backdrop: flat cream on mobile/tablet (bio sits on canvas below the
+     character, per the Figma mobile frame); on desktop it becomes the
+     full-width tan gradient sampled from the video so the >1440 side-panels
+     continue the video's backdrop seamlessly. */
+  .hero-bg {
+    background: theme('colors.canvas');
+  }
+  @media (min-width: 1024px) {
+    .hero-bg {
+      /* The video backdrop is asymmetric — its right edge is lighter than its
+         left. The vertical gradient (2nd layer) matches the left edge; the
+         horizontal overlay (1st layer) lightens the right panel to match the
+         video's lighter right edge, so the masked right edge blends cleanly. */
+      background:
+        linear-gradient(
+          to right,
+          rgba(250, 232, 205, 0) 0%,
+          rgba(250, 232, 205, 0) 58%,
+          rgba(250, 232, 205, 0.5) 100%
+        ),
+        linear-gradient(
+          180deg,
+          #e9cca6 0%,
+          #ebcea8 15%,
+          #ecd0aa 34%,
+          #efd7b6 54%,
+          #ead3b4 74%,
+          #e3c9ac 86%,
+          #f8ede0 97%
+        );
+    }
+  }
+
+  /* Per-letter hover distortion (Hero) — useHoverLetters writes transform/
+     filter straight to these nodes each frame; the transition smooths those
+     per-frame jumps into a fluid trail, and eases the reset on pointer-leave. */
+  [data-letter] {
+    transition:
+      transform 200ms var(--ease-out),
+      filter 200ms var(--ease-out);
+    will-change: transform, filter;
+  }
+}
+
+@layer utilities {
+  /* Respect users who prefer reduced motion — kill scroll-reveal + autoplay flourish */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}

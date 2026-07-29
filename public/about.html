@@ -1,0 +1,514 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Joe Kang — About</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- PREVIEW HARNESS ONLY — same tokens/classes as the Vite app in src/. -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        future: { hoverOnlyWhenSupported: true },
+        theme: {
+          colors: {
+            ink: '#3e3e3e', body: '#494949', muted: '#777777', 'muted-soft': '#a4a4a4',
+            hairline: '#d2d2d2', 'hairline-soft': '#e8e8e8', canvas: '#f8ede0',
+            'canvas-strong': '#ebd7bd', 'surface-neutral': '#faf6f2', 'surface-card': '#ffffff',
+            'accent-sky': '#29aaee', 'accent-persimmon': '#f45d48', 'accent-error': '#ac3f3f',
+            'accent-ube': '#9c3fac', 'accent-matcha': '#3fac91', success: '#3fac91',
+            warning: '#d3b153', error: '#ac3f3f', 'on-dark': '#ffffff', espresso: '#26211d',
+          },
+          fontFamily: {
+            sans: ['Cabin', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+            serif: ['Georgia', 'serif'],
+          },
+          fontSize: {
+            hero: ['96px', { lineHeight: '112px', letterSpacing: '-3.84px' }],
+            h1: ['72px', { lineHeight: '88px', letterSpacing: '-2.88px' }],
+            h2: ['60px', { lineHeight: '72px', letterSpacing: '-2.4px' }],
+            h3: ['48px', { lineHeight: '64px', letterSpacing: '-1.92px' }],
+            h4: ['36px', { lineHeight: '48px', letterSpacing: '-1.44px' }],
+            h5: ['24px', { lineHeight: '32px', letterSpacing: '0px' }],
+            'body-1': ['20px', { lineHeight: '28px', letterSpacing: '0px' }],
+            'body-2': ['16px', { lineHeight: '24px', letterSpacing: '0px' }],
+            'body-3': ['14px', { lineHeight: '20px', letterSpacing: '0px' }],
+            'body-4': ['12px', { lineHeight: '16px', letterSpacing: '0px' }],
+            'eyebrow-lg': ['24px', { lineHeight: '32px', letterSpacing: '2.4px' }],
+            'eyebrow-md': ['16px', { lineHeight: '24px', letterSpacing: '1.6px' }],
+            'eyebrow-sm': ['12px', { lineHeight: '16px', letterSpacing: '1.2px' }],
+          },
+          borderRadius: {
+            none: '0px', xs: '2px', sm: '4px', md: '8px', lg: '12px',
+            xl: '16px', '2xl': '24px', card: '40px', full: '9999px',
+          },
+          extend: {
+            spacing: {
+              0.5: '2px', 1: '4px', 2: '8px', 2.5: '10px', 3: '12px', 4: '16px',
+              5: '20px', 6: '24px', 8: '32px', 9: '36px', 10: '40px', 12: '48px',
+              14: '56px', 16: '64px', 20: '80px', 24: '96px', 28: '112px',
+              32: '128px', 40: '160px', 60: '240px',
+            },
+            maxWidth: { frame: '1440px', content: '1376px' },
+          },
+        },
+      };
+    </script>
+    <style>
+      html { scroll-behavior: smooth; }
+      body { font-variation-settings: 'wdth' 100; }
+      :root { --ease-out: cubic-bezier(0.16, 1, 0.3, 1); }
+      @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+      }
+    </style>
+
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script>
+      Babel.registerPreset('react-classic', {
+        plugins: [[Babel.availablePlugins['transform-react-jsx'],
+          { runtime: 'classic', pragma: 'React.createElement', pragmaFrag: 'React.Fragment' }]],
+      });
+    </script>
+  </head>
+  <body class="bg-canvas text-ink font-sans antialiased">
+    <div id="root"></div>
+
+    <script type="text/babel" data-presets="react-classic">
+      const { useEffect, useRef, useState } = React;
+
+      /* ---------- icons ---------- */
+      const Logo = ({ className }) => (
+        <svg viewBox="0 0 30.1073 32.0005" fill="none" className={className} aria-hidden="true">
+          <path d="M13.5887 0C14.3214 7.84365e-05 14.9158 0.594406 14.9158 1.32715V7.46875L22.952 0L25.2332 2.4541C25.7193 2.97742 25.689 3.7959 25.1658 4.28223L19.7127 9.34961L23.6834 18.4434H28.8358C29.5381 18.4434 30.1073 19.0125 30.1073 19.7148V23.0869H25.7108L25.7137 23.0938H21.6336C21.1098 23.0936 20.6348 22.7852 20.4217 22.3066L16.1375 12.6855L14.9158 13.8135V21.7588H14.9139V24.5332C14.9136 30.2182 8.80549 33.8122 3.83577 31.0518C-0.602522 28.586 -1.33189 22.502 2.39729 19.0566L10.2713 11.7812V4.64355H4.90901C4.20666 4.64355 3.63753 4.07443 3.63753 3.37207V0H13.5887ZM5.54866 22.4678C4.14213 23.7674 4.41757 26.0622 6.09163 26.9922C7.96596 28.0326 10.269 26.6771 10.2694 24.5332V20.0215H10.2713V18.1035L5.54866 22.4678Z" fill="currentColor" />
+        </svg>
+      );
+      const MenuIcon = ({ className }) => (
+        <svg viewBox="0 0 18 12.75" fill="none" className={className} aria-hidden="true">
+          <path d="M0 1.125C0 0.50368 0.50368 0 1.125 0H16.875C17.4963 0 18 0.50368 18 1.125C18 1.74632 17.4963 2.25 16.875 2.25H1.125C0.50368 2.25 0 1.74632 0 1.125Z" fill="currentColor" />
+          <path d="M0 6.375C0 5.75368 0.50368 5.25 1.125 5.25H16.875C17.4963 5.25 18 5.75368 18 6.375C18 6.99632 17.4963 7.5 16.875 7.5H1.125C0.50368 7.5 0 6.99632 0 6.375Z" fill="currentColor" />
+          <path d="M1.125 10.5C0.50368 10.5 0 11.0037 0 11.625C0 12.2463 0.50368 12.75 1.125 12.75H16.875C17.4963 12.75 18 12.2463 18 11.625C18 11.0037 17.4963 10.5 16.875 10.5H1.125Z" fill="currentColor" />
+        </svg>
+      );
+      const CloseIcon = ({ className }) => (
+        <svg viewBox="0 0 18 18" fill="none" className={className} aria-hidden="true">
+          <path d="M2 2L16 16M16 2L2 16" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round" />
+        </svg>
+      );
+      const LinkedInIcon = ({ className }) => (
+        <svg viewBox="0 0 20 20" fill="none" className={className} aria-hidden="true">
+          <path fillRule="evenodd" clipRule="evenodd" d="M10.8307 8.98226V8.95303C10.8247 8.96283 10.8164 8.97264 10.8113 8.98226H10.8307Z" fill="currentColor" />
+          <path fillRule="evenodd" clipRule="evenodd" d="M3.33333 0C1.49238 0 0 1.49238 0 3.33333V16.6667C0 18.5076 1.49238 20 3.33333 20H16.6667C18.5076 20 20 18.5076 20 16.6667V3.33333C20 1.49238 18.5076 0 16.6667 0H3.33333ZM6.22075 16.6155H3.25345V7.68818H6.22075V16.6155ZM4.7371 6.46971H4.71749C3.72211 6.46971 3.07692 5.78396 3.07692 4.92681C3.07692 4.05086 3.74097 3.38453 4.75653 3.38453C5.77231 3.38453 6.39653 4.05086 6.41596 4.92681C6.41596 5.78396 5.77231 6.46971 4.7371 6.46971ZM16.9231 16.6155H13.955V11.8393C13.955 10.6397 13.5262 9.82088 12.4519 9.82088C11.6315 9.82088 11.144 10.3722 10.9292 10.9063C10.8512 11.0971 10.8308 11.3622 10.8308 11.6298V16.6155H7.86211C7.86211 16.6155 7.90189 8.52571 7.86211 7.68822H10.8308V8.95323C11.2252 8.34633 11.9291 7.47864 13.5058 7.47864C15.459 7.47864 16.9231 8.75424 16.9231 11.4961V16.6155Z" fill="currentColor" />
+        </svg>
+      );
+
+      /* ---------- Header / Footer ---------- */
+      const pages = [
+        { label: 'Projects', href: 'preview.html#projects', selected: false },
+        { label: 'About', href: 'about.html', selected: true },
+      ];
+      const CONTACT_HREF = 'mailto:kangdongsun@gmail.com';
+      const unselectedItem = 'text-muted transition-colors duration-200 hover:text-ink';
+      const SocialButton = ({ href, label, children }) => (
+        <a href={href} aria-label={label} className={'flex size-10 items-center justify-center rounded-full ' + unselectedItem}>{children}</a>
+      );
+      function Header() {
+        const [open, setOpen] = useState(false);
+        return (
+          <header className={['absolute inset-x-0 top-0 z-20',
+            open ? 'bg-canvas/60 backdrop-blur-2xl lg:bg-[rgba(0,0,0,0)] lg:backdrop-blur-none' : ''].filter(Boolean).join(' ')}>
+            <div className="mx-auto flex w-full max-w-frame items-center gap-2.5 px-4 py-4 md:px-10">
+              <a href="preview.html" aria-label="Joe Kang — home" className="flex items-center"><Logo className="h-8 w-[30px] text-ink" /></a>
+              <nav className="hidden flex-1 items-center justify-end lg:flex">
+                <div className="flex items-center gap-2 rounded-full px-8 py-1">
+                  {pages.map((item) => (
+                    <a key={item.label} href={item.href} aria-current={item.selected ? 'page' : undefined}
+                       className={['rounded-sm px-4 py-2 font-sans text-body-2 font-semibold',
+                         item.selected ? 'bg-[rgba(0,0,0,0.1)] text-ink transition-colors duration-200' : unselectedItem].join(' ')}>{item.label}</a>
+                  ))}
+                  <a href={CONTACT_HREF} className={'rounded-sm px-4 py-2 font-sans text-body-2 font-semibold ' + unselectedItem}>Contact</a>
+                  <SocialButton href="https://www.linkedin.com/in/joe-kang/" label="Joe Kang on LinkedIn"><LinkedInIcon className="size-[22px]" /></SocialButton>
+                </div>
+              </nav>
+              <button type="button" onClick={() => setOpen((v) => !v)} aria-label={open ? 'Close menu' : 'Open menu'} aria-expanded={open}
+                      className="-mr-2.5 ml-auto flex size-11 items-center justify-center text-ink lg:hidden">
+                {open ? <CloseIcon className="w-[18px]" /> : <MenuIcon className="w-[18px]" />}
+              </button>
+            </div>
+            {open && (
+              <div className="lg:hidden">
+                <nav className="flex flex-col">
+                  {pages.map((item) => (
+                    <a key={item.label} href={item.href} onClick={() => setOpen(false)}
+                       className={['flex h-16 items-center justify-center border-b border-[rgba(0,0,0,0)] px-4 py-2 font-sans text-body-2 font-normal transition-colors duration-200',
+                         item.selected ? 'bg-[rgba(0,0,0,0.1)] text-[#000000]' : 'text-ink hover:bg-[rgba(0,0,0,0.04)]'].join(' ')}>{item.label}</a>
+                  ))}
+                  <a href={CONTACT_HREF} onClick={() => setOpen(false)} className="flex h-16 items-center justify-center border-b border-[rgba(0,0,0,0)] px-4 py-2 font-sans text-body-2 font-normal text-ink transition-colors duration-200 hover:bg-[rgba(0,0,0,0.04)]">Contact</a>
+                  <a href="https://www.linkedin.com/in/joe-kang/" target="_blank" rel="noreferrer" onClick={() => setOpen(false)} className="flex h-16 items-center justify-center border-b border-[rgba(0,0,0,0)] px-4 py-2 font-sans text-body-2 font-normal text-ink transition-colors duration-200 hover:bg-[rgba(0,0,0,0.04)]">Linkedin</a>
+                </nav>
+              </div>
+            )}
+          </header>
+        );
+      }
+      function Footer() {
+        return (
+          <footer className="w-full bg-[#f0dfd0] px-8 py-8">
+            <div className="mx-auto flex max-w-content items-center justify-center">
+              <p className="font-sans text-body-4 font-normal text-body">2026 Joe Kang. All Rights Reserved</p>
+            </div>
+          </footer>
+        );
+      }
+
+      /* ---------- content (mirrors src/components/AboutPage.tsx) ---------- */
+      const sections = [
+        {
+          video: '/assets/about-1.mp4',
+          label: 'Joe walking past a red doorway',
+          paragraphs: [
+            [{ text: 'Hey there! my name is Joe Kang, a product designer with 8+ years of experience in the monetization, ads, and growth space.' }],
+            [{ text: 'recently, My adventure has landed me at Meta where I help advertisers optimize their messaging ads.' }],
+          ],
+        },
+        {
+          video: '/assets/about-2.mp4',
+          label: 'Joe eating at a restaurant',
+          paragraphs: [
+            [
+              { text: 'Product growth happens when you can build trust. Building trust happens when we think about' },
+              { text: 'mindful design.', accent: true },
+            ],
+            [{ text: 'This is my core belief and what has helped me grow adoption across multiple products.' }],
+          ],
+        },
+        {
+          video: '/assets/about-3.mp4',
+          label: 'Portrait of Joe',
+          paragraphs: [
+            [{ text: 'Outside of work, I’m a first-time father who loves staying active, experimenting with recipe, and eating... lots of eating.' }],
+            [{ text: 'Lately I’ve been chasing a solid Coq Au Vin recipe, trying to master Korean salt bread in the oven,' }],
+          ],
+        },
+      ];
+      /* ---------- experience (mirrors src/components/AboutPage.tsx) ---------- */
+      const RESUME_HREF = '/assets/JoeKang_Resume.pdf';
+      const experience = [
+        {
+          company: 'Meta',
+          href: 'https://meta.com',
+          title: 'Senior Product Designer, Ads',
+          dates: 'Feb 2024 – July 2026',
+          bullets: [
+            'Led end-to-end strategy for Messaging Ad Product Growth; clarified the multi-destination messaging journey and turned ambiguity into a clear solution, unlocking $98K/day and $40M in annual revenue potential.',
+            'Shipped 15+ features that shaped strategy across the advertiser platform; drove strategic partnerships across 10+ teams (researchers, engineers, product managers, legal, designers) to align on goals.',
+            'Transitioned to CTX Multi-destination mid-H2; rapidly ramped on the space and led design for two high-impact experiments that exceeded iCTX targets (+$99.46K/day vs +$51K/day goal).',
+            'Facilitated strategic roadmapping sessions that shaped 18+ P0 projects for 2026 roadmap across account linking and automation guidance initiatives, collaborating with XFN leadership to align on multi-half priorities. We launched 12 of those projects with revenue wins.',
+            'Used Figma Make and Claude Code to quickly build and test MVPs, while keeping a clear roadmap for future improvements.',
+          ],
+        },
+        {
+          company: 'Gusto',
+          href: 'https://gusto.com',
+          title: 'Senior Product Designer, Growth',
+          dates: 'May 2021 – Feb 2024',
+          bullets: [
+            'Co-led design for Gusto’s first end-of-year promotional campaign, driving a +22% YoY increase in account joins.',
+            'Redesigned the plan selection experience, increasing upgrade click rate by +8.7% and reducing downgrade click rate by 3%.',
+            'Championed a company-wide feature adoption initiative with Engineering and Product, shipping iterative experiments that improved adoption by +8.4%.',
+            'Led product strategy and end-to-end design of an A La Carte pricing experiment, letting users purchase features as add-ons; drove a +10.6% increase in CVR.',
+          ],
+        },
+        {
+          company: 'Expedia Group (Hotwire)',
+          href: 'https://expedia.com',
+          title: 'Product Designer, Engagement',
+          dates: 'Sep 2018 – May 2021',
+          bullets: [
+            'Led the end-to-end product strategy and design for Hotwire’s highest-converting email campaign (Car Rental and Hotel), achieving +15.6% CTR, +8.0% click-to-open rate, and +4.3% conversion lift.',
+            'Improved mobile search conversion by redesigning the date picker and reducing unnecessary error messages, cutting user friction at critical touchpoints.',
+            'Rebuilt loading animations across search, billing, and confirmation pages to educate users on Hot Rates; improved CVR +0.8%, GPPQ +0.2%, and Hot Rates share +0.5%.',
+          ],
+        },
+      ];
+
+      function Experience() {
+        return (
+          <section className="w-full bg-[#f0dfd0]">
+            <div className="mx-auto flex max-w-[1028px] flex-col gap-10 px-6 py-20 md:px-8">
+              <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between sm:gap-8">
+                <h2 className="font-sans text-h3 font-bold text-ink">My Experience</h2>
+                <a href={RESUME_HREF} download className="inline-flex shrink-0 items-center justify-center gap-2 self-start rounded-sm bg-accent-persimmon px-4 py-3 font-sans text-eyebrow-sm font-bold uppercase text-surface-card transition-colors duration-200 hover:bg-[#af4233] sm:self-auto">
+                  Download resume
+                </a>
+              </div>
+              <div className="flex flex-col gap-5">
+                {experience.map((role) => (
+                  <div key={role.company} className="flex flex-col gap-2.5">
+                    <div className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                      <div className="flex flex-col">
+                        <a href={role.href} target="_blank" rel="noreferrer" className="font-sans text-body-1 font-bold text-ink transition-colors duration-200 hover:text-accent-persimmon">{role.company}</a>
+                        <p className="font-sans text-body-3 font-normal text-muted">{role.title}</p>
+                      </div>
+                      <p className="font-sans text-body-3 font-normal text-muted sm:whitespace-nowrap">{role.dates}</p>
+                    </div>
+                    <ul className="flex list-disc flex-col gap-4 pl-6">
+                      {role.bullets.map((b) => (
+                        <li key={b} className="font-sans text-body-2 font-normal text-ink">{b}</li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+        );
+      }
+
+      const N = sections.length;
+      const FILL = 0.62;
+      const BASE = [164, 164, 164];
+      const INK = [62, 62, 62];
+      const PERSIMMON = [244, 93, 72];
+
+      const clamp = (v, min, max) => Math.min(max, Math.max(min, v));
+      const mix = (a, b, t) =>
+        `rgb(${Math.round(a[0] + (b[0] - a[0]) * t)}, ${Math.round(a[1] + (b[1] - a[1]) * t)}, ${Math.round(a[2] + (b[2] - a[2]) * t)})`;
+      const easeInOut = (t) => (t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2);
+      const PERSPECTIVE = 1600;
+
+      function wordsOf(section) {
+        const out = [];
+        section.paragraphs.forEach((runs, p) => {
+          for (const run of runs) {
+            for (const w of run.text.split(/\s+/).filter(Boolean)) {
+              out.push({ text: w, accent: !!run.accent, paragraph: p });
+            }
+          }
+        });
+        return out;
+      }
+      const sectionWords = sections.map(wordsOf);
+
+      function Copy({ index, filled = false, innerRef }) {
+        const words = sectionWords[index];
+        let cursor = 0;
+        return (
+          <div ref={innerRef} data-copy={index}
+               className="flex flex-col gap-[20px] font-sans text-[14px] font-bold uppercase leading-[20px] tracking-[1.4px] md:text-eyebrow-md lg:gap-8 lg:text-eyebrow-lg">
+            {sections[index].paragraphs.map((_, p) => {
+              const inParagraph = words.filter((w) => w.paragraph === p);
+              return (
+                <p key={p}>
+                  {inParagraph.map((w, j) => {
+                    const i = cursor++;
+                    return (
+                      <span key={j} data-word={i} data-accent={w.accent ? '' : undefined}
+                            style={{ color: mix(BASE, w.accent ? PERSIMMON : INK, filled ? 1 : 0) }}>
+                        {w.text}{j < inParagraph.length - 1 ? ' ' : ''}
+                      </span>
+                    );
+                  })}
+                </p>
+              );
+            })}
+          </div>
+        );
+      }
+
+      function CardFace({ children }) {
+        return (
+          <div className="absolute inset-0 overflow-hidden rounded-2xl [backface-visibility:hidden]">
+            {children}
+          </div>
+        );
+      }
+      const AboutVideo = ({ src, label }) => (
+        <video src={src} autoPlay muted loop playsInline aria-label={label}
+               className="absolute inset-0 h-full w-full object-cover" />
+      );
+
+      function AboutPage() {
+        const trackRef = useRef(null);
+        const stageRef = useRef(null);
+        const cardRef = useRef(null);
+        const copyRefs = useRef([]);
+        const faceARef = useRef(null);
+        const faceBRef = useRef(null);
+        const [reduced] = useState(() => window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+        useEffect(() => {
+          if (reduced) return;
+          const track = trackRef.current, stage = stageRef.current, card = cardRef.current;
+          if (!track || !stage || !card) return;
+          const desktop = window.matchMedia('(min-width: 1024px)');
+          let raf = 0, travel = 0;
+          const measure = () => { travel = Math.max(0, stage.clientWidth - card.offsetWidth); };
+          const spans = copyRefs.current.map((el) => el ? Array.from(el.querySelectorAll('span[data-word]')) : []);
+
+          const update = () => {
+            raf = 0;
+            const isDesktop = desktop.matches;
+            const total = track.offsetHeight - window.innerHeight;
+            const p = total > 0 ? clamp(-track.getBoundingClientRect().top / total, 0, 1) : 0;
+            const slot = Math.min(p * N, N - 1e-4);
+            const s = Math.floor(slot);
+            const local = slot - s;
+            const revealed = clamp(local / FILL, 0, 1);
+            const flip = s < N - 1 ? clamp((local - FILL) / (1 - FILL), 0, 1) : 0;
+
+            for (let i = 0; i < N; i++) {
+              const amount = i < s ? 1 : i === s ? revealed : 0;
+              const list = spans[i];
+              for (let j = 0; j < list.length; j++) {
+                const t = clamp(amount * list.length - j, 0, 1);
+                const accent = list[j].dataset.accent !== undefined;
+                list[j].style.color = mix(BASE, accent ? PERSIMMON : INK, t);
+              }
+              const el = copyRefs.current[i];
+              if (el) {
+                const opacity = i === s ? 1 - clamp(flip / 0.45, 0, 1)
+                  : i === s + 1 ? clamp((flip - 0.55) / 0.45, 0, 1) : 0;
+                el.style.opacity = String(opacity);
+                el.style.visibility = opacity < 0.01 ? 'hidden' : 'visible';
+              }
+            }
+
+            const rot = (s + flip) * 180;
+            const from = s % 2 === 0 ? travel : 0;
+            const to = (s + 1) % 2 === 0 ? travel : 0;
+            const x = isDesktop ? from + (to - from) * easeInOut(flip) : 0;
+            // Vanishing point tracks the card — see AboutPage.tsx.
+            stage.style.perspectiveOrigin = isDesktop
+              ? `${(x + card.offsetWidth / 2).toFixed(1)}px 50%`
+              : '50% 50%';
+            card.style.transform = isDesktop
+              ? `translateX(${x.toFixed(1)}px) rotateY(${rot.toFixed(2)}deg)`
+              : `translateX(-50%) rotateY(${rot.toFixed(2)}deg)`;
+
+            const half = Math.floor(rot / 180);
+            const aIdx = clamp(half % 2 === 0 ? half : half + 1, 0, N - 1);
+            const bIdx = clamp(half % 2 === 0 ? half + 1 : half, 0, N - 1);
+            [[faceARef.current, aIdx], [faceBRef.current, bIdx]].forEach(([face, want]) => {
+              if (!face) return;
+              face.querySelectorAll('video').forEach((v) => {
+                v.style.opacity = Number(v.dataset.index) === want ? '1' : '0';
+              });
+            });
+          };
+
+          const onScroll = () => { if (!raf) raf = requestAnimationFrame(update); };
+          const onResize = () => { measure(); onScroll(); };
+          measure(); update();
+          window.addEventListener('scroll', onScroll, { passive: true });
+          window.addEventListener('resize', onResize);
+          desktop.addEventListener('change', onResize);
+          const ro = new ResizeObserver(onResize);
+          ro.observe(stage);
+          return () => {
+            window.removeEventListener('scroll', onScroll);
+            window.removeEventListener('resize', onResize);
+            desktop.removeEventListener('change', onResize);
+            ro.disconnect();
+            if (raf) cancelAnimationFrame(raf);
+          };
+        }, [reduced]);
+
+        if (reduced) {
+          return (
+            <div className="relative min-h-screen bg-canvas">
+              <Header />
+              <main>
+                <section className="w-full bg-canvas">
+                  <div className="mx-auto flex max-w-[1028px] flex-col gap-20 px-6 py-32 md:px-8">
+                    {sections.map((sec, i) => (
+                      <div key={i} className={['flex flex-col gap-10 lg:items-center lg:gap-[60px]',
+                        i % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'].join(' ')}>
+                        <div className="lg:w-[500px] lg:shrink-0"><Copy index={i} filled /></div>
+                        <div className="relative aspect-[468/735] w-full overflow-hidden rounded-2xl lg:w-[468px] lg:shrink-0">
+                          <AboutVideo src={sec.video} label={sec.label} />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+                <Experience />
+              </main>
+              <Footer />
+            </div>
+          );
+        }
+
+        return (
+          <div className="relative min-h-screen bg-canvas">
+            <Header />
+            <main>
+              {/* Below lg the pin is dropped — sections stack per the mobile frame. */}
+              <section className="w-full bg-canvas lg:hidden">
+                <div className="mx-auto flex max-w-[1028px] flex-col gap-20 px-6 py-28 md:px-8">
+                  {sections.map((sec, i) => (
+                    <div key={i} className="flex flex-col gap-10">
+                      <Copy index={i} filled />
+                      <div className="relative aspect-[468/735] w-full max-w-[420px] self-center overflow-hidden rounded-2xl">
+                        <AboutVideo src={sec.video} label={sec.label} />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </section>
+
+              {/* Desktop: one section at a time, pinned, card flips between them. */}
+              {/* No overflow-hidden — it would make this a scroll container and
+                  silently break the sticky pin below. */}
+              <section ref={trackRef} className="relative hidden w-full bg-canvas lg:block lg:h-[520vh]">
+                <div className="sticky top-0 flex h-screen items-center px-6 md:px-8">
+                  <div ref={stageRef} className="relative mx-auto h-[min(735px,calc(100vh-200px))] w-full max-w-[1028px]"
+                       style={{ perspective: `${PERSPECTIVE}px` }}>
+                    {sections.map((_, i) => (
+                      <div key={i} ref={(el) => { copyRefs.current[i] = el; }}
+                           className={['absolute top-1/2 w-[48.64%] -translate-y-1/2', i % 2 === 0 ? 'left-0' : 'left-[51.36%]'].join(' ')}
+                           style={{ opacity: i === 0 ? 1 : 0, visibility: i === 0 ? 'visible' : 'hidden' }}>
+                        <Copy index={i} />
+                      </div>
+                    ))}
+                    <div ref={cardRef} className="absolute left-0 top-0 aspect-[468/735] h-full [transform-style:preserve-3d]">
+                      <div ref={faceARef} className="absolute inset-0 [backface-visibility:hidden]">
+                        <CardFace>
+                          {sections.map((sec, i) => i % 2 === 0 ? (
+                            <video key={i} data-index={i} src={sec.video} autoPlay muted loop playsInline aria-label={sec.label}
+                                   className="absolute inset-0 h-full w-full object-cover" style={{ opacity: i === 0 ? 1 : 0 }} />
+                          ) : null)}
+                        </CardFace>
+                      </div>
+                      <div ref={faceBRef} className="absolute inset-0 [backface-visibility:hidden] [transform:rotateY(180deg)]">
+                        <CardFace>
+                          {sections.map((sec, i) => i % 2 === 1 ? (
+                            <video key={i} data-index={i} src={sec.video} autoPlay muted loop playsInline aria-label={sec.label}
+                                   className="absolute inset-0 h-full w-full object-cover" style={{ opacity: 1 }} />
+                          ) : null)}
+                        </CardFace>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+              <Experience />
+            </main>
+            <Footer />
+          </div>
+        );
+      }
+
+      ReactDOM.createRoot(document.getElementById('root')).render(<AboutPage />);
+    </script>
+  </body>
+</html>
