@@ -522,7 +522,7 @@
               hoverTintByAccent[project.accent]].join(' ')}>
             {project.href && <a href={project.href} aria-label={project.title + ' — case study'} className="absolute inset-0 z-20" />}
             <div className="flex flex-col gap-3 lg:h-[574px] lg:flex-row lg:items-center lg:gap-20 lg:px-8">
-              <div className={['relative flex min-h-[269px] w-full items-center justify-center py-6 sm:min-h-[320px] lg:h-full lg:min-h-0 lg:flex-1 lg:py-0',
+              <div className={['relative flex min-h-[269px] w-full items-center justify-center py-6 max-lg:rounded-xl max-lg:bg-[#f6d6c7] sm:min-h-[320px] lg:h-full lg:min-h-0 lg:flex-1 lg:py-0',
                 shown ? 'animate-fade-up' : 'opacity-0'].join(' ')}>
                 <div className="relative w-[86%] max-w-[760px] lg:w-full">
                   <img src="/assets/device-shadow.png" alt="" aria-hidden="true"

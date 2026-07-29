@@ -70,10 +70,16 @@ export default function ProjectCard({ project }: { project: Project }) {
         {/* Media — framed device sitting on an image-based soft shadow; on
             desktop hover the device lifts and the shadow shrinks a little
             (Figma prototype / Hover example). Not text, so it gets the plain
-            fade-up rather than a word-by-word reveal. */}
+            fade-up rather than a word-by-word reveal.
+
+            Persimmon-10 fill (Figma mobile "Card" variants, e.g. 2067:6012):
+            a persistent peach panel behind the device on mobile, `max-lg:`
+            only — the desktop variant's own media wrapper carries no fill at
+            all there, that card only tints (the whole card, on hover) via
+            hoverTintByAccent above. */}
         <div
           className={[
-            'relative flex min-h-[269px] w-full items-center justify-center py-6 sm:min-h-[320px] lg:h-full lg:min-h-0 lg:flex-1 lg:py-0',
+            'relative flex min-h-[269px] w-full items-center justify-center py-6 max-lg:rounded-xl max-lg:bg-[#f6d6c7] sm:min-h-[320px] lg:h-full lg:min-h-0 lg:flex-1 lg:py-0',
             shown ? 'animate-fade-up' : 'opacity-0',
           ].join(' ')}
         >
