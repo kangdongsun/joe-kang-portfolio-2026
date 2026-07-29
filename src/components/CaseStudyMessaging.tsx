@@ -710,8 +710,16 @@ export default function CaseStudyMessaging() {
                 section's own color show through at the border, so the seam
                 disappears instead of needing pixel-exact color matching. No
                 play button here (unlike the device-demo videos) — it just
-                autoplays + loops once the section scrolls into view. */}
-            <div className="mt-5">
+                autoplays + loops once the section scrolls into view.
+
+                Mobile crops rather than shrinks: Figma's mobile "Alignment
+                section" (e.g. 2292:4472) renders this same clip at its full
+                native width (2.33:1) and lets it overflow the 390px frame
+                equally on both sides, showing only the centred 390×576
+                slice — same object-cover-on-a-fixed-box technique as the
+                Home hero's mobile video. Desktop is untouched: Figma's
+                desktop frame shows the clip at its native ratio, uncropped. */}
+            <div className="relative mt-5 max-lg:aspect-[390/576] max-lg:overflow-hidden">
               <video
                 ref={ctaVideoRef}
                 src={assetUrl('/assets/cs-cta.mp4')}
@@ -719,7 +727,7 @@ export default function CaseStudyMessaging() {
                 loop
                 playsInline
                 aria-hidden="true"
-                className="block w-full [-webkit-mask-composite:source-in] [mask-composite:intersect] [-webkit-mask-image:linear-gradient(to_right,transparent,#000_6%,#000_94%,transparent),linear-gradient(to_bottom,transparent,#000_12%,#000_88%,transparent)] [mask-image:linear-gradient(to_right,transparent,#000_6%,#000_94%,transparent),linear-gradient(to_bottom,transparent,#000_12%,#000_88%,transparent)]"
+                className="block w-full max-lg:absolute max-lg:inset-0 max-lg:h-full max-lg:object-cover max-lg:object-center [-webkit-mask-composite:source-in] [mask-composite:intersect] [-webkit-mask-image:linear-gradient(to_right,transparent,#000_6%,#000_94%,transparent),linear-gradient(to_bottom,transparent,#000_12%,#000_88%,transparent)] [mask-image:linear-gradient(to_right,transparent,#000_6%,#000_94%,transparent),linear-gradient(to_bottom,transparent,#000_12%,#000_88%,transparent)]"
               />
             </div>
           </div>

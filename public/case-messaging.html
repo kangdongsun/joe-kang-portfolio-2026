@@ -695,7 +695,7 @@
                       </a>
                     </div>
                   </div>
-                  <div className="mt-5">
+                  <div className="relative mt-5 max-lg:aspect-[390/576] max-lg:overflow-hidden">
                     {/* Feather the edges into the section's flat background — the
                         video's own background is a near (not exact) match, and on a
                         perfectly flat surround even a small delta reads as a hard
@@ -703,7 +703,7 @@
                         hero's video mask. No play button here — autoplays + loops
                         once the section scrolls into view. */}
                     <video ref={ctaVideoRef} src="/assets/cs-cta.mp4" muted loop playsInline aria-hidden="true"
-                      className="block w-full [-webkit-mask-composite:source-in] [mask-composite:intersect] [-webkit-mask-image:linear-gradient(to_right,transparent,#000_6%,#000_94%,transparent),linear-gradient(to_bottom,transparent,#000_12%,#000_88%,transparent)] [mask-image:linear-gradient(to_right,transparent,#000_6%,#000_94%,transparent),linear-gradient(to_bottom,transparent,#000_12%,#000_88%,transparent)]" />
+                      className="block w-full max-lg:absolute max-lg:inset-0 max-lg:h-full max-lg:object-cover max-lg:object-center [-webkit-mask-composite:source-in] [mask-composite:intersect] [-webkit-mask-image:linear-gradient(to_right,transparent,#000_6%,#000_94%,transparent),linear-gradient(to_bottom,transparent,#000_12%,#000_88%,transparent)] [mask-image:linear-gradient(to_right,transparent,#000_6%,#000_94%,transparent),linear-gradient(to_bottom,transparent,#000_12%,#000_88%,transparent)]" />
                   </div>
                 </div>
               </section>
