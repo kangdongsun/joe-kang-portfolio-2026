@@ -220,11 +220,11 @@ export default function CaseStudyMessaging() {
   // card resolves quickly rather than crawling line by line.
   const roleCard = createCascade(0, { step: 30, gap: 60 });
   // The Team field is two side-by-side columns — each row (e.g. "Justin
-  // Gavil - PM" | "Hanny Yang - PMM") gets one shared start time so the
+  // Gavil (PM)" | "Hanny Yang (PMM)") gets one shared start time so the
   // columns reveal in parallel, left and right together.
-  const teamRow1 = roleCard.next('Justin Gavil - PM');
-  const teamRow2 = roleCard.next('Dale Ramsay - UXR');
-  const teamRow3 = roleCard.next('Erika Raso - CD');
+  const teamRow1 = roleCard.next('Justin Gavil (PM)');
+  const teamRow2 = roleCard.next('Dale Ramsay (UXR)');
+  const teamRow3 = roleCard.next('Erika Raso (CD)');
 
   // ---------- Overview (Problem / Hypothesis / Goal) ----------
   const overviewCascade = createCascade(0);
@@ -416,12 +416,12 @@ export default function CaseStudyMessaging() {
                   100px is exactly the left column's SectionHead height (88px)
                   plus its 12px gap before the body paragraph, so "Role" lines
                   up with the first line of body text, not the heading. */}
-              <div className="flex flex-col gap-4 text-ink lg:w-[287px] lg:shrink-0 lg:mt-[100px]">
+              <div className="flex flex-col gap-12 text-ink lg:w-[363px] lg:shrink-0 lg:mt-[100px]">
                 <div className="flex flex-col">
                   <p className="font-sans text-eyebrow-md font-bold uppercase">
                     <Words text="Role" active={context.shown} start={roleCard.next('Role')} />
                   </p>
-                  <p className="font-sans text-body-2 font-normal">
+                  <p className="font-sans text-body-1 font-normal">
                     <Words
                       text="Senior Product Designer"
                       active={context.shown}
@@ -433,27 +433,30 @@ export default function CaseStudyMessaging() {
                   <p className="font-sans text-eyebrow-md font-bold uppercase">
                     <Words text="Team" active={context.shown} start={roleCard.next('Team')} />
                   </p>
-                  <div className="flex gap-6 font-sans text-body-2 font-normal">
-                    <div>
+                  {/* Equal-width columns (Figma has both Team Names frames on
+                      fill, 169.5px each) — unlike the other two case studies,
+                      where the columns size to their content. */}
+                  <div className="flex gap-6 font-sans text-body-1 font-normal">
+                    <div className="flex-1">
                       <p>
-                        <Words text="Justin Gavil - PM" active={context.shown} start={teamRow1} />
+                        <Words text="Justin Gavil (PM)" active={context.shown} start={teamRow1} />
                       </p>
                       <p>
-                        <Words text="Dale Ramsay - UXR" active={context.shown} start={teamRow2} />
+                        <Words text="Dale Ramsay (UXR)" active={context.shown} start={teamRow2} />
                       </p>
                       <p>
-                        <Words text="Erika Raso - CD" active={context.shown} start={teamRow3} />
+                        <Words text="Erika Raso (CD)" active={context.shown} start={teamRow3} />
                       </p>
                     </div>
-                    <div>
+                    <div className="flex-1">
                       <p>
-                        <Words text="Hanny Yang - PMM" active={context.shown} start={teamRow1} />
+                        <Words text="Hanny Yang (PMM)" active={context.shown} start={teamRow1} />
                       </p>
                       <p>
-                        <Words text="Louis Li - EM" active={context.shown} start={teamRow2} />
+                        <Words text="Louis Li (EM)" active={context.shown} start={teamRow2} />
                       </p>
                       <p>
-                        <Words text="Huiqiong Gu - Eng" active={context.shown} start={teamRow3} />
+                        <Words text="Huiqiong Gu (Eng)" active={context.shown} start={teamRow3} />
                       </p>
                     </div>
                   </div>
@@ -462,7 +465,7 @@ export default function CaseStudyMessaging() {
                   <p className="font-sans text-eyebrow-md font-bold uppercase">
                     <Words text="Duration" active={context.shown} start={roleCard.next('Duration')} />
                   </p>
-                  <div className="font-sans text-body-2 font-normal">
+                  <div className="font-sans text-body-1 font-normal">
                     <p>
                       <Words
                         text="Build - 2.5 months"

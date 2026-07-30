@@ -373,12 +373,12 @@ export default function CaseStudyPlanFeatureAdoption() {
               </div>
 
               {/* right — role card, offset 100px to line up with body copy */}
-              <div className="flex flex-col gap-4 text-ink lg:w-[287px] lg:shrink-0 lg:mt-[100px]">
+              <div className="flex flex-col gap-12 text-ink lg:w-[362px] lg:shrink-0 lg:mt-[100px]">
                 <div className="flex flex-col">
                   <p className="font-sans text-eyebrow-md font-bold uppercase">
                     <Words text="Role" active={context.shown} start={roleCard.next('Role')} />
                   </p>
-                  <p className="font-sans text-body-2 font-normal">
+                  <p className="font-sans text-body-1 font-normal">
                     <Words
                       text="Senior Product Designer"
                       active={context.shown}
@@ -390,7 +390,7 @@ export default function CaseStudyPlanFeatureAdoption() {
                   <p className="font-sans text-eyebrow-md font-bold uppercase">
                     <Words text="Team" active={context.shown} start={roleCard.next('Team')} />
                   </p>
-                  <div className="flex gap-6 font-sans text-body-2 font-normal">
+                  <div className="flex gap-6 font-sans text-body-1 font-normal">
                     <div>
                       <p>
                         <Words text="Jordan Kong - PM" active={context.shown} start={teamRow1} />
@@ -419,7 +419,7 @@ export default function CaseStudyPlanFeatureAdoption() {
                   <p className="font-sans text-eyebrow-md font-bold uppercase">
                     <Words text="Duration" active={context.shown} start={roleCard.next('Duration')} />
                   </p>
-                  <div className="font-sans text-body-2 font-normal">
+                  <div className="font-sans text-body-1 font-normal">
                     <p>
                       <Words
                         text="Build - 1 month"
