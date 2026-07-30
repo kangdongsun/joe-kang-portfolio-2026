@@ -252,9 +252,9 @@ export default function CaseStudyALaCarte() {
 
   // Short reference lines (Role/Team/Duration).
   const roleCard = createCascade(0, { step: 30, gap: 60 });
-  const teamRow1 = roleCard.next('Jordan Kong - PM');
-  const teamRow2 = roleCard.next('Sarah Ang - CD');
-  const teamRow3 = roleCard.next('Erik Gorin - Pricing');
+  const teamRow1 = roleCard.next('Jordan Kong (PM)');
+  const teamRow2 = roleCard.next('Sarah Ang (CD)');
+  const teamRow3 = roleCard.next('Erik Gorin (Pricing)');
 
   const overviewCascade = createCascade(0);
   const overviewTitleStart = overviewCascade.next('Overview');
@@ -395,13 +395,16 @@ export default function CaseStudyALaCarte() {
                 </div>
               </div>
 
-              {/* right — overview card, offset 100px to line up with body copy */}
-              <div className="flex flex-col gap-4 text-ink lg:w-[287px] lg:shrink-0 lg:mt-[100px]">
+              {/* right — overview card, offset 100px to line up with body copy.
+                  367px + the row's 80px gap leaves the body column 929px, which
+                  is what Figma's "Info container" (2292:4505) is measured
+                  against; the two team columns need it to sit on one line. */}
+              <div className="flex flex-col gap-12 text-ink lg:w-[367px] lg:shrink-0 lg:mt-[100px]">
                 <div className="flex flex-col">
                   <p className="font-sans text-eyebrow-md font-bold uppercase">
                     <Words text="Role" active={context.shown} start={roleCard.next('Role')} />
                   </p>
-                  <p className="font-sans text-body-2 font-normal">
+                  <p className="font-sans text-body-1 font-normal">
                     <Words
                       text="Senior Product Designer"
                       active={context.shown}
@@ -413,27 +416,27 @@ export default function CaseStudyALaCarte() {
                   <p className="font-sans text-eyebrow-md font-bold uppercase">
                     <Words text="Team" active={context.shown} start={roleCard.next('Team')} />
                   </p>
-                  <div className="flex gap-6 font-sans text-body-2 font-normal">
+                  <div className="flex gap-6 font-sans text-body-1 font-normal">
                     <div>
                       <p>
-                        <Words text="Jordan Kong - PM" active={context.shown} start={teamRow1} />
+                        <Words text="Jordan Kong (PM)" active={context.shown} start={teamRow1} />
                       </p>
                       <p>
-                        <Words text="Sarah Ang - CD" active={context.shown} start={teamRow2} />
+                        <Words text="Sarah Ang (CD)" active={context.shown} start={teamRow2} />
                       </p>
                       <p>
-                        <Words text="Erik Gorin - Pricing" active={context.shown} start={teamRow3} />
+                        <Words text="Erik Gorin (Pricing)" active={context.shown} start={teamRow3} />
                       </p>
                     </div>
                     <div>
                       <p>
-                        <Words text="Bryan Berend - DS" active={context.shown} start={teamRow1} />
+                        <Words text="Bryan Berend (DS)" active={context.shown} start={teamRow1} />
                       </p>
                       <p>
-                        <Words text="Tim Vaca - Eng" active={context.shown} start={teamRow2} />
+                        <Words text="Tim Vaca (Eng)" active={context.shown} start={teamRow2} />
                       </p>
                       <p>
-                        <Words text="Annie Kuramoto - Eng" active={context.shown} start={teamRow3} />
+                        <Words text="Annie Kuramoto (Eng)" active={context.shown} start={teamRow3} />
                       </p>
                     </div>
                   </div>
@@ -442,7 +445,7 @@ export default function CaseStudyALaCarte() {
                   <p className="font-sans text-eyebrow-md font-bold uppercase">
                     <Words text="Duration" active={context.shown} start={roleCard.next('Duration')} />
                   </p>
-                  <div className="font-sans text-body-2 font-normal">
+                  <div className="font-sans text-body-1 font-normal">
                     <p>
                       <Words
                         text="Build - 2.5 months"

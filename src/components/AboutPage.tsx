@@ -61,11 +61,16 @@ const sections: AboutSection[] = [
     video: assetUrl('/assets/about-2.mp4'),
     label: 'Joe eating at a restaurant',
     paragraphs: [
+      // Two accented phrases now, both mid-sentence. Figma leaves the comma and
+      // full stop outside the persimmon runs, but a word is the smallest unit
+      // `wordsOf` can colour — splitting them out would put a space before the
+      // punctuation, so they ride along with the word they follow.
       [
-        {
-          text: 'Product growth happens when you can build trust. Building trust happens when we think about',
-        },
-        { text: 'mindful design.', accent: true },
+        { text: 'When you design with' },
+        { text: 'mindfulness,', accent: true },
+        { text: 'you build user' },
+        { text: 'trust.', accent: true },
+        { text: 'When you build user trust, your product grows.' },
       ],
       [
         {
@@ -80,12 +85,12 @@ const sections: AboutSection[] = [
     paragraphs: [
       [
         {
-          text: 'Outside of work, I’m a first-time father who loves staying active, experimenting with recipe, and eating... lots of eating.',
+          text: 'Outside of work, I’m a first-time father who loves staying active, experimenting with new recipe, and eating... lots of eating.',
         },
       ],
       [
         {
-          text: 'Lately I’ve been chasing a solid Coq Au Vin recipe, trying to master Korean salt bread in the oven,',
+          text: 'Lately I’ve been chasing a solid Coq Au Vin recipe and mastering Korean salt bread in the oven.',
         },
       ],
     ],
@@ -129,7 +134,7 @@ const experience: Role[] = [
       'Co-led design for Gusto’s first end-of-year promotional campaign, driving a +22% YoY increase in account joins.',
       'Redesigned the plan selection experience, increasing upgrade click rate by +8.7% and reducing downgrade click rate by 3%.',
       'Championed a company-wide feature adoption initiative with Engineering and Product, shipping iterative experiments that improved adoption by +8.4%.',
-      'Led product strategy and end-to-end design of an A La Carte pricing experiment, letting users purchase features as add-ons; drove a +10.6% increase in CVR.',
+      'Led product strategy and end-to-end design of an à-la-carte pricing experiment, letting users purchase features as add-ons; drove a +10.6% increase in CVR.',
     ],
   },
   {
