@@ -18,6 +18,21 @@
       href="https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap"
       rel="stylesheet"
     />
+
+    <!-- GoatCounter. `no_onload` because the app routes on the hash: count.js
+         auto-counts once on load, which would record the landing page and miss
+         every route after it. src/analytics.ts counts each route instead, the
+         first one included. The `id` is what analytics.ts waits on to know the
+         async script has landed. -->
+    <script>
+      window.goatcounter = { no_onload: true };
+    </script>
+    <script
+      id="goatcounter"
+      data-goatcounter="https://joekang.goatcounter.com/count"
+      async
+      src="https://gc.zgo.at/count.js"
+    ></script>
   </head>
   <body>
     <div id="root"></div>

@@ -10,6 +10,7 @@ import CaseStudyPlanFeatureAdoption from './components/CaseStudyPlanFeatureAdopt
 import AboutPage from './components/AboutPage';
 import Preloader from './components/Preloader';
 import { useHashRoute } from './components/useHashRoute';
+import { initLinkTracking, trackPageview } from './analytics';
 
 /**
  * Home — "Web / 1440 / Home" (Figma node 2023:5429).
@@ -81,6 +82,15 @@ export default function App() {
     // smooth-scrolling a whole page height on a route swap reads as a glitch.
     else window.scrollTo({ top: 0, behavior: 'instant' });
   }, [hash]);
+
+  // Analytics. This lives here rather than inside `useHashRoute` because
+  // Header calls that hook too — counting there would double every pageview.
+  // App is the one place the route is observed exactly once.
+  useEffect(() => {
+    trackPageview();
+  }, [hash]);
+
+  useEffect(() => initLinkTracking(), []);
 
   const finishPreload = () => {
     setPreloading(false);
