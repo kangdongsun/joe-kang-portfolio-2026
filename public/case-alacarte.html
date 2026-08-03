@@ -405,7 +405,7 @@
       const stats = [
         { label: 'CVR (Total conversion)', value: '+10.6%' },
         { label: 'Annual recurring revenue', value: '6.5% | +$80K' },
-        { label: 'Reduce Churn', value: '-4.8%' },
+        { label: 'Cannibalization', value: '-2.2%', negative: true },
       ];
       const afterRows = [
         { label: 'Add-on store', rest: '- In our “upgrade” flow, I added an add-on store that allows users to choose the feature they want in their plan.' },
@@ -648,7 +648,7 @@
                     {stats.map((s, i) => (
                       <div key={s.label} className="flex flex-1 flex-col justify-center gap-3 rounded-md border border-[rgba(0,0,0,0.2)] bg-[#f0dfd0] p-8">
                         <p className="font-sans text-eyebrow-md font-bold uppercase text-ink"><Words text={s.label} active={results.shown} start={statsBase + i * 90} /></p>
-                        <p className="font-sans text-body-1 font-bold text-accent-matcha"><Words text={s.value} active={results.shown} start={statsBase + i * 90 + 60} /></p>
+                        <p className={['font-sans text-body-1 font-bold', s.negative ? 'text-accent-error' : 'text-accent-matcha'].join(' ')}><Words text={s.value} active={results.shown} start={statsBase + i * 90 + 60} /></p>
                       </div>
                     ))}
                   </div>

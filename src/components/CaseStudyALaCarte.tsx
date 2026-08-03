@@ -145,10 +145,13 @@ const overviewCards = [
   },
 ];
 
-const stats = [
+// `negative` flips the value from Matcha to Error — the design colours a
+// result by whether it's good news, not by its sign. Cannibalization going
+// *down* is a win, and it's still red, because the metric itself is a cost.
+const stats: { label: string; value: string; negative?: boolean }[] = [
   { label: 'CVR (Total conversion)', value: '+10.6%' },
   { label: 'Annual recurring revenue', value: '6.5% | +$80K' },
-  { label: 'Reduce Churn', value: '-4.8%' },
+  { label: 'Cannibalization', value: '-2.2%', negative: true },
 ];
 
 // After's numbered list — bold label + " - " + the rest, kept separate
@@ -596,7 +599,12 @@ export default function CaseStudyALaCarte() {
                   <p className="font-sans text-eyebrow-md font-bold uppercase text-ink">
                     <Words text={s.label} active={results.shown} start={statsBase + i * 90} />
                   </p>
-                  <p className="font-sans text-body-1 font-bold text-accent-matcha">
+                  <p
+                    className={[
+                      'font-sans text-body-1 font-bold',
+                      s.negative ? 'text-accent-error' : 'text-accent-matcha',
+                    ].join(' ')}
+                  >
                     <Words text={s.value} active={results.shown} start={statsBase + i * 90 + 60} />
                   </p>
                 </div>
