@@ -22,6 +22,17 @@ type GoatCounter = { count?: (hit: Hit) => void };
 /** Matches the `id` on the count.js tag in index.html. */
 const SCRIPT_ID = 'goatcounter';
 
+/**
+ * count.js's own opt-out: landing on this hash flips a `skipgc` flag in
+ * localStorage, and every later `count()` returns early while it's set. Visit
+ * it once per browser to keep your own visits out of the stats.
+ *
+ * Never counted itself. While the flag is *on* count.js would drop the hit
+ * anyway, but the same URL is also what switches it back *off* — and that hit
+ * would land, putting a junk `#toggle-goatcounter` row in the dashboard.
+ */
+const TOGGLE_HASH = '#toggle-goatcounter';
+
 const pending: Hit[] = [];
 let lastPath = '';
 
@@ -60,6 +71,14 @@ function send(hit: Hit) {
  * site collapses into a single entry.
  */
 export function trackPageview() {
+  if (location.hash === TOGGLE_HASH) {
+    // Passing through the toggle flips whether hits count at all, so the
+    // dedupe below has to forget where it was: otherwise opting back in and
+    // returning to the route you were last on looks like a repeat and is
+    // dropped.
+    lastPath = '';
+    return;
+  }
   const path = location.pathname + location.search + location.hash;
   if (path === lastPath) return;
   lastPath = path;
