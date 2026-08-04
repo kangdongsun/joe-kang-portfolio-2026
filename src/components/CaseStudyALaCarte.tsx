@@ -141,7 +141,7 @@ const overviewCards = [
   },
   {
     label: 'Goal',
-    body: 'Reduce churn by allowing Simple Plan users to adopt add-on features',
+    body: 'Increase revenue by allowing Simple Plan users to adopt add-on features',
   },
 ];
 
