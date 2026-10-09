@@ -66,6 +66,42 @@ function send(hit: Hit) {
 }
 
 /**
+ * The campaign params GoatCounter understands (goatcounter.com/help/campaigns).
+ *
+ * These are deliberately dropped from the reported path. count.js sends
+ * `location.search` to the server separately as `q`, and that — not the path —
+ * is what campaigns are read from, so removing them here loses no attribution.
+ * Leaving them in would split the Pages list: `/?ref=Design-A` would sit as its
+ * own row next to `/`, once per campaign, for what is the same page.
+ */
+const CAMPAIGN_PARAMS = [
+  'ref',
+  'src',
+  'source',
+  'campaign',
+  'utm_source',
+  'utm_campaign',
+  'utm_medium',
+  'utm_term',
+  'utm_content',
+];
+
+/** `location.search` minus the campaign params; '' when nothing else is left. */
+function searchWithoutCampaign(): string {
+  if (!location.search) return '';
+  try {
+    const params = new URLSearchParams(location.search);
+    for (const name of CAMPAIGN_PARAMS) params.delete(name);
+    const rest = params.toString();
+    return rest ? `?${rest}` : '';
+  } catch {
+    // URLSearchParams is everywhere this site runs; if it somehow is not,
+    // an unsplit path beats a thrown error in the render tree.
+    return location.search;
+  }
+}
+
+/**
  * Count the current route. The hash is included deliberately — here it *is*
  * the route (`#/about`, `#/case/alacarte`), and without it every page on the
  * site collapses into a single entry.
@@ -79,7 +115,7 @@ export function trackPageview() {
     lastPath = '';
     return;
   }
-  const path = location.pathname + location.search + location.hash;
+  const path = location.pathname + searchWithoutCampaign() + location.hash;
   if (path === lastPath) return;
   lastPath = path;
   send({ path });
